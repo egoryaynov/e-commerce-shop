@@ -3,3 +3,33 @@
 node_modules/
 node_modules/server/
 node_modules/client/
+
+# CLIENT IGNORES
+client/.eslintcache
+
+# dependencies
+client/.pnp/
+client/.pnp.js
+
+# testing
+client/coverage/
+
+# production
+client/build/
+
+# misc
+client/.DS_Store
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+# SERVER IGNORES
+server/config.env
+server/npm-debug.log*
+server/yarn-debug.log*
+server/yarn-error.log*
