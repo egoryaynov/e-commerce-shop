@@ -1,0 +1,16 @@
+{
+  "name": "e-commerce-shop",
+  "version": "1.0.0",
+  "description": "e-commerce shop on MERN stack",
+  "main": "server/app.js",
+  "author": "Egor Goryaynov <egor.goryaynov02@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "client": "yarn --cwd ./client/ start",
+    "server": "yarn --cwd ./server/ start",
+    "dev": "concurrently \"yarn server\" \"yarn client\""
+  },
+  "devDependencies": {
+    "concurrently": "^6.0.0"
+  }
+}
