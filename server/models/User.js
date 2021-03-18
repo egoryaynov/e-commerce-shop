@@ -4,13 +4,16 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const UserSchema = new Schema({
-    username: {
+    firstName: {
         type: String,
-        required: [true, 'Please provide a username'],
-        match: [
-            /[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*/,
-            'Please provide correct username'
-        ]
+        required: [true, 'Please provide a First name']
+    },
+    secondName: {
+        type: String,
+        required: [true, 'Please provide a Second name']
+    },
+    middleName: {
+        type: String
     },
     email: {
         type: String,
@@ -27,6 +30,7 @@ const UserSchema = new Schema({
         minLength: 6,
         select: false
     },
+    addresses: [{type: Schema.Types.ObjectId, ref: 'Address'}],
     resetPasswordToken: String,
     resetPasswordExpire: Date
 })
@@ -52,7 +56,7 @@ UserSchema.methods.getResetPasswordToken = async function () {
     const resetToken = crypto.randomBytes(20).toString('hex')
     this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex')
 
-    this.resetPasswordExpire = Date.now() + 10 * (60 * 1000)
+    this.resetPasswordExpire = Date.now() + process.env.RESET_PASSWORD_EXPIRE * (60 * 1000)
 
     return resetToken
 }
