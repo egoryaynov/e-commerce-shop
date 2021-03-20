@@ -31,7 +31,6 @@ const UserSchema = new Schema({
         select: false
     },
     addresses: [{type: Schema.Types.ObjectId, ref: 'Address'}],
-
     resetPasswordToken: String,
     resetPasswordExpire: Date
 }, {versionKey: false})

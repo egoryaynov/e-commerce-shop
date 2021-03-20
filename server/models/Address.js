@@ -28,7 +28,11 @@ const AddressSchema = new Schema({
     full: {
         type: String
     },
-    user: {type: Schema.Types.ObjectId, ref: 'User'}
+    user: {type: Schema.Types.ObjectId, ref: 'User', select: false}
 }, {versionKey: false})
 
-module.exports = model('Address', AddressSchema)
+module.exports.getFullAddress = function (address) {
+    return `${address.street}, ${address.houseNumber}, ${address.apartmentNumber}, ${address.city}, ${address.country}, ${address.postcode}`
+}
+
+module.exports.Address = model('Address', AddressSchema)
