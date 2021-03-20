@@ -31,9 +31,10 @@ const UserSchema = new Schema({
         select: false
     },
     addresses: [{type: Schema.Types.ObjectId, ref: 'Address'}],
+
     resetPasswordToken: String,
     resetPasswordExpire: Date
-})
+}, {versionKey: false})
 
 UserSchema.pre('save', async function (next) {
     if (!this.isModified('password')) {

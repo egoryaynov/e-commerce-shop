@@ -2,8 +2,9 @@ const {Router} = require('express')
 const router = Router()
 const {protect} = require('../middleware/auth.middleware')
 
-const {setAddress} = require('../controllers/address.controller')
+const {createAddress, deleteAddress} = require('../controllers/address.controller')
 
-router.post('/', protect, setAddress)
+router.post('/', protect, createAddress)
+router.delete('/', protect, deleteAddress)
 
 module.exports = router

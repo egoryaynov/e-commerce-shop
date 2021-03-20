@@ -29,6 +29,6 @@ const AddressSchema = new Schema({
         type: String
     },
     user: {type: Schema.Types.ObjectId, ref: 'User'}
-})
+}, {versionKey: false})
 
 module.exports = model('Address', AddressSchema)
