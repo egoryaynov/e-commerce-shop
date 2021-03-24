@@ -19,16 +19,13 @@ exports.createAddress = async (req, res, next) => {
 
             user.addresses.push(newAddress._id)
 
-            await user.save((err) => {
+            await user.save(async err => {
                 if (!err) {
-                    return res.status(201).json({
-                        success: true,
-                        address: newAddress
-                    })
+                    await sendPopulatedAddresses(user._id, res)
+                } else {
+                    return next(new ErrorResponse('Server Error on add address', 500))
                 }
             })
-
-            return next(new ErrorResponse('Server Error on add address', 500))
         })
     } catch (error) {
         next(error)

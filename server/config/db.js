@@ -6,9 +6,13 @@ const connectDB = async () => {
         useCreateIndex: true,
         useFindAndModify: true,
         useUnifiedTopology: true
+    }, err => {
+        if (err) {
+            throw new Error('Error on connect DB')
+        } else {
+            console.log('MongoDB connected')
+        }
     })
-
-    console.log('MongoDB connected')
 }
 
 module.exports = connectDB
