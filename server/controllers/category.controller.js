@@ -1,7 +1,7 @@
 const Category = require('../models/Category')
 const ErrorResponse = require('../utils/ErrorResponse')
 
-exports.addCategory = async (req, res, next) => {
+exports.createCategory = async (req, res, next) => {
     const {name} = req.body
 
     try {

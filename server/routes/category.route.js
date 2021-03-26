@@ -2,8 +2,8 @@ const {protect} = require("../middleware/auth.middleware");
 const {Router} = require('express')
 const router = Router()
 
-const {addCategory} = require('../controllers/category.controller')
+const {createCategory} = require('../controllers/category.controller')
 
-router.post('/',protect, addCategory)
+router.post('/',protect, createCategory)
 
 module.exports = router
