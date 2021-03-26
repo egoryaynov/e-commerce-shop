@@ -11,6 +11,8 @@ app.use(express.json())
 
 app.use('/api/auth', require('./routes/auth.route'))
 app.use('/api/address', require('./routes/address.route'))
+app.use('/api/category', require('./routes/category.route'))
+app.use('/api/product', require('./routes/product.route'))
 
 // error handler
 app.use(errorHandler)
