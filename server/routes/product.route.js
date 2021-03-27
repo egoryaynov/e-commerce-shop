@@ -7,6 +7,6 @@ const {createProduct, uploadImages} = require('../controllers/product.controller
 
 router.post('/', protect, createProduct)
 
-router.post('/images', upload.single('file'), protect, uploadImages)
+router.post('/images', protect, upload.array('file', 5), uploadImages)
 
 module.exports = router

@@ -9,6 +9,8 @@ connectDB()
 
 app.use(express.json())
 
+app.use('/uploads/', require('./routes/uploads.route'))
+
 app.use('/api/auth', require('./routes/auth.route'))
 app.use('/api/address', require('./routes/address.route'))
 app.use('/api/category', require('./routes/category.route'))
