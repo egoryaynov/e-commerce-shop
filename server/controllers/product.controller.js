@@ -1,5 +1,7 @@
 const Product = require('../models/Product')
 const ErrorResponse = require('../utils/ErrorResponse')
+const fs = require('fs')
+const path = require('path')
 
 exports.createProduct = async (req, res, next) => {
     const {name, price, discount, colors, categoryId: category} = req.body
@@ -18,6 +20,30 @@ exports.createProduct = async (req, res, next) => {
                 next(new ErrorResponse(err.message, 500))
             } else {
                 await sendProduct(product, 201, res)
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+exports.deleteProduct = async (req, res, next) => {
+    const {productId} = req.body
+
+    try {
+        await Product.findOne({_id: productId}, async (err, doc) => {
+            if (err) {
+                next(new ErrorResponse('Product not found', 400))
+            } else {
+                doc.images.forEach(image => {
+                    fs.unlinkSync(path.join(__dirname, '/../uploads/images/', image.split('/')[3]))
+                })
+
+                await doc.remove()
+
+                res.status(200).json({
+                    success: true,
+                    message: 'Product removed successfully'
+                })
             }
         })
     } catch (error) {
