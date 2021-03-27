@@ -4,13 +4,14 @@ const app = express()
 const connectDB = require('./config/db')
 const errorHandler = require('./middleware/error.middleware')
 
-// connect DB
 connectDB()
 
 app.use(express.json())
 
-app.use('/uploads/', require('./routes/uploads.route'))
+// STATIC MIDDLEWARE
+app.use('/uploads/images', express.static(__dirname + '/uploads/images'))
 
+// API ENDPOINTS
 app.use('/api/auth', require('./routes/auth.route'))
 app.use('/api/address', require('./routes/address.route'))
 app.use('/api/category', require('./routes/category.route'))
