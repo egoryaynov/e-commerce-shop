@@ -1,7 +1,10 @@
-const Product = require('../models/Product')
-const ErrorResponse = require('../utils/ErrorResponse')
 const fs = require('fs')
 const path = require('path')
+
+const Product = require('../models/Product')
+const ErrorResponse = require('../utils/ErrorResponse')
+const parseQueryString = require('../utils/parseQueryString')
+
 
 exports.createProduct = async (req, res, next) => {
     const {name, price, discount, colors, categoryId: category} = req.body
@@ -50,6 +53,31 @@ exports.deleteProduct = async (req, res, next) => {
         next(error)
     }
 }
+exports.getProducts = async (req, res, next) => {
+    const parsedQueryStr = parseQueryString(req)
+    console.log(parsedQueryStr)
+
+    try {
+
+    } catch (error) {
+        next(error)
+    }
+}
+exports.getProductById = async (req, res, next) => {
+    const productId = req.params.productId
+
+    try {
+        await Product.findById(productId, (err, doc) => {
+            if (err || doc === null) {
+                return next(new ErrorResponse('Error doesn\'t exist', 404))
+            } else {
+                sendProduct(doc, 200, res)
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
+}
 
 exports.uploadImages = async (req, res, next) => {
     const {productId} = req.body
@@ -75,7 +103,6 @@ exports.uploadImages = async (req, res, next) => {
         next(error)
     }
 }
-
 exports.createComment = async (req, res, next) => {
     const {productId, rating, review} = req.body
     const user = req.user
