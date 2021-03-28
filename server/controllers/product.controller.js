@@ -76,6 +76,41 @@ exports.uploadImages = async (req, res, next) => {
     }
 }
 
+exports.createComment = async (req, res, next) => {
+    const {productId, rating, review} = req.body
+    const user = req.user
+
+    const author = user.firstName + ' ' + user.secondName
+
+    try {
+        const product = await Product.findById(productId)
+
+        product.comments.push({
+            author, rating
+        })
+
+        const lastCommentIdx = product.comments.length - 1
+
+        if (review) {
+            product.comments[lastCommentIdx].review = review
+        }
+
+        const totalRating = product.comments.reduce((sum, comment) => {
+            return sum + comment.rating
+        }, 0)
+
+        product.rating = (totalRating / product.comments.length).toFixed(2)
+        await product.save()
+
+        res.status(201).json({
+            success: true,
+            comment: product.comments[lastCommentIdx]
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 const sendProduct = async (product, statusCode, res) => {
     const populatedProduct = await Product.findById(product._id)
         .populate('category')

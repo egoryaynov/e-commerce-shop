@@ -6,19 +6,19 @@ const ColorSchema = new Schema({
 }, {versionKey: false})
 const CommentSchema = new Schema({
     author: {type: String, required: [true, 'Please provide author']},
-    rating: {type: Number, required: [true, 'Please provide rating']},
-    review: {type: String}
+    rating: {type: Number, min: 1, max: 5,  required: [true, 'Please provide rating']},
+    review: String
 }, {versionKey: false})
 
 const ProductSchema = new Schema({
     name: {type: String, unique: true , required: [true, 'Please provide product name']},
     price: {type: Number , required: [true, 'Please provide product price']},
-    discount: {type: Number},
-    rating: {type: Types.Decimal128},
-    colors: [{type: ColorSchema}],
-    comments: [{type: CommentSchema}],
+    discount: Number,
+    rating: Types.Decimal128,
+    colors: [ColorSchema],
+    comments: [CommentSchema],
     category: {type: Types.ObjectId, ref: 'Category'},
-    images: [{type: String}]
+    images: [String]
 }, {versionKey: false})
 
 module.exports = model('Product', ProductSchema)
