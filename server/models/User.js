@@ -32,7 +32,8 @@ const UserSchema = new Schema({
     },
     addresses: [{type: Schema.Types.ObjectId, ref: 'Address'}],
     resetPasswordToken: String,
-    resetPasswordExpire: Date
+    resetPasswordExpire: Date,
+    role: {type: String, default: 'User', select: false}
 }, {versionKey: false})
 
 UserSchema.pre('save', async function (next) {

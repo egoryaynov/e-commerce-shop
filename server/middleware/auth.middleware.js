@@ -29,3 +29,17 @@ exports.protect = async (req, res, next) => {
         next(new ErrorResponse('Not authorized to access this route'), 401)
     }
 }
+
+exports.protectAdmin = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user._id).select('+role')
+
+        if (user.role !== 'Admin') {
+            next(new ErrorResponse('You do not have the required permissions'), 401)
+        } else {
+            next()
+        }
+    } catch (e) {
+        next(new ErrorResponse('You do not have the required permissions'), 401)
+    }
+}

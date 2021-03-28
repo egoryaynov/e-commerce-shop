@@ -14,6 +14,8 @@ app.use('/uploads/images', express.static(__dirname + '/uploads/images'))
 // API ENDPOINTS
 app.use('/api/auth', require('./routes/auth.route'))
 app.use('/api/address', require('./routes/address.route'))
+
+// ADMIN ENDPOINTS
 app.use('/api/category', require('./routes/category.route'))
 app.use('/api/product', require('./routes/product.route'))
 
