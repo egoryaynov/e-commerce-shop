@@ -32,13 +32,16 @@ exports.protect = async (req, res, next) => {
 
 exports.protectAdmin = async (req, res, next) => {
     try {
-        const user = await User.findById(req.user._id).select('+role')
-
-        if (user.role !== 'Admin') {
-            next(new ErrorResponse('You do not have the required permissions'), 401)
-        } else {
-            next()
-        }
+        const user = await User.findOne({
+            _id: req.user._id,
+            role: 'Admin'
+        }, (err, doc) => {
+            if (err || doc === null) {
+                next(new ErrorResponse('You do not have the required permissions'), 401)
+            } else {
+                next()
+            }
+        })
     } catch (e) {
         next(new ErrorResponse('You do not have the required permissions'), 401)
     }
