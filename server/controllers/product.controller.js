@@ -54,11 +54,34 @@ exports.deleteProduct = async (req, res, next) => {
     }
 }
 exports.getProducts = async (req, res, next) => {
-    const parsedQueryStr = parseQueryString(req)
-    console.log(parsedQueryStr)
+    const parsedQuery = parseQueryString(req)
+
+    const aggrQuery = [
+        {
+            $match: {}
+        }
+    ]
+
+    if (parsedQuery.colorsFilters) {
+        aggrQuery[0].$match['colors.name'] = {
+            $in: parsedQuery.colorsFilters
+        }
+    }
+    if (parsedQuery.hasDiscountFilter) {
+        aggrQuery[0].$match.discount = {
+            $exists: true
+        }
+    }
+    if (parsedQuery.search) {
+        aggrQuery[0].$match.name = {
+            $regex: parsedQuery.search,
+        }
+    }
 
     try {
-
+        await Product.aggregate(aggrQuery, (err, doc) => {
+            console.log(doc)
+        })
     } catch (error) {
         next(error)
     }
@@ -69,7 +92,7 @@ exports.getProductById = async (req, res, next) => {
     try {
         await Product.findById(productId, (err, doc) => {
             if (err || doc === null) {
-                return next(new ErrorResponse('Error doesn\'t exist', 404))
+                return next(new ErrorResponse('Product doesn\'t exist', 404))
             } else {
                 sendProduct(doc, 200, res)
             }
