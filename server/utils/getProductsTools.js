@@ -1,4 +1,4 @@
-module.exports = (req) => {
+const getProductsTools = (req) => {
     const result = {}
     result.sort = {}
 
@@ -12,6 +12,7 @@ module.exports = (req) => {
     if (req.query.filter && req.query.filter.includes('discount')) {
         result.hasDiscountFilter = true
     }
+
     // SORT
     if (req.query.sort) {
         const splitSort = req.query.sort.split('_')
@@ -22,6 +23,7 @@ module.exports = (req) => {
         result.sort.name = 'name'
         result.sort.type = 'asc'
     }
+
     // SEARCH
     if (req.query.search) {
         result.search = req.query.search
@@ -29,4 +31,32 @@ module.exports = (req) => {
 
     result.page = req.query.page || 1
     return result
+}
+
+module.exports.getAggregateQuery = function (req) {
+    const parsedQuery = getProductsTools(req)
+
+    const aggregateQuery = [
+        {
+            $match: {}
+        }
+    ]
+
+    if (parsedQuery.colorsFilters) {
+        aggregateQuery[0].$match['colors.name'] = {
+            $in: parsedQuery.colorsFilters
+        }
+    }
+    if (parsedQuery.hasDiscountFilter) {
+        aggregateQuery[0].$match.discount = {
+            $exists: true
+        }
+    }
+    if (parsedQuery.search) {
+        aggregateQuery[0].$match.name = {
+            $regex: parsedQuery.search,
+        }
+    }
+
+    return aggregateQuery
 }

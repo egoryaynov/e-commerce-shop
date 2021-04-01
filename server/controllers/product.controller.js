@@ -3,8 +3,7 @@ const path = require('path')
 
 const Product = require('../models/Product')
 const ErrorResponse = require('../utils/ErrorResponse')
-const parseQueryString = require('../utils/parseQueryString')
-
+const {getAggregateQuery} = require('../utils/getProductsTools')
 
 exports.createProduct = async (req, res, next) => {
     const {name, price, discount, colors, categoryId: category} = req.body
@@ -54,32 +53,11 @@ exports.deleteProduct = async (req, res, next) => {
     }
 }
 exports.getProducts = async (req, res, next) => {
-    const parsedQuery = parseQueryString(req)
-
-    const aggrQuery = [
-        {
-            $match: {}
-        }
-    ]
-
-    if (parsedQuery.colorsFilters) {
-        aggrQuery[0].$match['colors.name'] = {
-            $in: parsedQuery.colorsFilters
-        }
-    }
-    if (parsedQuery.hasDiscountFilter) {
-        aggrQuery[0].$match.discount = {
-            $exists: true
-        }
-    }
-    if (parsedQuery.search) {
-        aggrQuery[0].$match.name = {
-            $regex: parsedQuery.search,
-        }
-    }
+    const aggregateQuery = getAggregateQuery(req)
+    console.log(aggregateQuery)
 
     try {
-        await Product.aggregate(aggrQuery, (err, doc) => {
+        await Product.aggregate(aggregateQuery, (err, doc) => {
             console.log(doc)
         })
     } catch (error) {
