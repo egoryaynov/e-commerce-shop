@@ -12,6 +12,7 @@ const CommentSchema = new Schema({
 
 const ProductSchema = new Schema({
     name: {type: String, unique: true , required: [true, 'Please provide product name']},
+    normalizedName: {type: String, unique: true},
     price: {type: Number , required: [true, 'Please provide product price']},
     discount: Number,
     rating: Types.Decimal128,
@@ -20,5 +21,14 @@ const ProductSchema = new Schema({
     category: {type: Types.ObjectId, ref: 'Category'},
     images: [String]
 }, {versionKey: false})
+
+ProductSchema.pre('save', function(next) {
+    if (!this.isModified('name')) {
+        next();
+    }
+
+    this.normalizedName = this.name.toLowerCase()
+    next();
+});
 
 module.exports = model('Product', ProductSchema)

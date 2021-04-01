@@ -53,8 +53,7 @@ exports.deleteProduct = async (req, res, next) => {
     }
 }
 exports.getProducts = async (req, res, next) => {
-    const aggregateQuery = getAggregateQuery(req)
-    console.log(aggregateQuery)
+    const aggregateQuery = await getAggregateQuery(req)
 
     try {
         await Product.aggregate(aggregateQuery, (err, doc) => {
