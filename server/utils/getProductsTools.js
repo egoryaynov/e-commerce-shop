@@ -1,5 +1,4 @@
 const Category = require('../models/Category')
-const Types = require('mongoose').Types
 
 const parseQueryParams = async (req) => {
     const result = {}
@@ -47,19 +46,41 @@ const parseQueryParams = async (req) => {
         result.search = req.query.search
     }
 
-    result.page = req.query.page || 1
+    result.page = parseInt(req.query.page, 10) || 1
+    result.limit = parseInt(req.query.limit, 10) || parseInt(process.env.PRODUCT_PAGE_SIZE, 10)
     return result
 }
 
 module.exports.getAggregateQuery = async function (req) {
     const parsedQuery = await parseQueryParams(req)
+    const pageOptions = {
+        page: parsedQuery.page,
+        limit: parsedQuery.limit
+    }
 
     const aggregateQuery = [
         {
             $match: {}
         },
         {
-            $sort: {}
+            $project: {
+                name: 1,
+                price: 1,
+                category: 1,
+                colors: 1,
+                discount: 1,
+                image: {
+                    $first: "$images"
+                }
+            }
+        },
+        {
+            $lookup: {
+                from: 'categories',
+                localField: 'category',
+                foreignField: '_id',
+                as: 'category'
+            }
         }
     ]
 
@@ -80,17 +101,19 @@ module.exports.getAggregateQuery = async function (req) {
         }
     }
     if (parsedQuery.search) {
-        aggregateQuery[0].$match.normalizedName = {
+        aggregateQuery[0].$match.name = {
             $regex: parsedQuery.search,
             $options: 'i'
         }
     }
 
     // SORT
-    const sort = parsedQuery.sort
     const sortName = parsedQuery.sort.name
-    aggregateQuery[1].$sort[sortName === 'name' ? 'normalizedName' : sortName] =
-        sort.type === 'asc' ? 1 : sort.type === 'desc' ? -1 : 1
+    const sortType = parsedQuery.sort.type
 
-    return aggregateQuery
+    const aggregateSort = {}
+    aggregateSort[sortName === 'name' ? 'normalizedName' : sortName] =
+        sortType === 'desc' ? -1 : 1
+
+    return [aggregateQuery, aggregateSort, pageOptions.page, pageOptions.limit]
 }

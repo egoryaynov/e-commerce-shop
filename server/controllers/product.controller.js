@@ -53,11 +53,25 @@ exports.deleteProduct = async (req, res, next) => {
     }
 }
 exports.getProducts = async (req, res, next) => {
-    const aggregateQuery = await getAggregateQuery(req)
+    const [aggregateQuery, aggregateSort, page, limit] = await getAggregateQuery(req)
+    const options = {
+        page,
+        limit,
+        sort: aggregateSort
+    }
 
     try {
-        await Product.aggregate(aggregateQuery, (err, doc) => {
-            console.log(doc)
+        const aggregatedModel = Product.aggregate(aggregateQuery)
+
+        await Product.aggregatePaginate(aggregatedModel, options, async (err, doc) => {
+            if (err || doc === null) {
+                return next(new ErrorResponse('Error on load products', 404))
+            } else {
+                res.status(200).json({
+                    success: true,
+                    products: doc
+                })
+            }
         })
     } catch (error) {
         next(error)
