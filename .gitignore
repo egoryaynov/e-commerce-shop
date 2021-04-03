@@ -1,23 +1,19 @@
 .idea/
 
 node_modules/
-node_modules/server/
-node_modules/client/
+server/node_modules/
+client/node_modules/
+admin_panel/node_modules/
 
 # CLIENT IGNORES
 client/.eslintcache
 
-# dependencies
 client/.pnp/
 client/.pnp.js
 
-# testing
 client/coverage/
-
-# production
 client/build/
 
-# misc
 client/.DS_Store
 client/.env.local
 client/.env.development.local
@@ -27,6 +23,25 @@ client/.env.production.local
 client/npm-debug.log*
 client/yarn-debug.log*
 client/yarn-error.log*
+
+# ADMIN-PANEL IGNORES
+admin_panel/.eslintcache
+
+admin_panel/.pnp/
+admin_panel/.pnp.js
+
+admin_panel/coverage/
+admin_panel/build/
+
+admin_panel/.DS_Store
+admin_panel/.env.local
+admin_panel/.env.development.local
+admin_panel/.env.test.local
+admin_panel/.env.production.local
+
+admin_panel/npm-debug.log*
+admin_panel/yarn-debug.log*
+admin_panel/yarn-error.log*
 
 # SERVER IGNORES
 server/config.env
