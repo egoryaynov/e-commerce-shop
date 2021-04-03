@@ -4,7 +4,13 @@ export const useHttp = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [error, setError] = useState(null)
 
-    const request = useCallback(async (url, method = 'GET', body = null, headers = {}, contentType = 'application/json') => {
+    const request = useCallback(async ({
+                                           url,
+                                           method = 'GET',
+                                           body = null,
+                                           headers = {},
+                                           contentType = 'application/json'
+                                       }) => {
         setIsLoading(true)
 
         const makeRequest = async () => {

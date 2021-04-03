@@ -1,10 +1,14 @@
 import {useCallback, useEffect, useState} from 'react'
+import {useHttp} from "./useHttp";
+import {AuthApi} from "../api/AuthApi";
 
 const STORAGE_NAME = 'token'
 
 export const useAuth = () => {
     const [token, setToken] = useState(null)
     const [ready, setReady] = useState(null)
+    const [isAuth, setIsAuth] = useState(false)
+    const {request, error, clearError} = useHttp()
 
     const login = useCallback((jwtToken) => {
         setToken(jwtToken)
@@ -24,11 +28,22 @@ export const useAuth = () => {
         const data = JSON.parse(localStorage.getItem(STORAGE_NAME))
 
         if (data && data.token) {
-            login(data.token)
+            const validateToken = async () => {
+                const options = new AuthApi()
+
+                options.validateToken(data.token)
+                await request(options)
+
+                setIsAuth(true)
+            }
+
+            try {
+                validateToken().then(r => setReady(r => true))
+            } catch (e) {
+                logout()
+            }
         }
+    }, [login, logout, request])
 
-        setReady(r => true)
-    }, [login])
-
-    return {token, login, logout, ready}
+    return {token, login, logout, error, clearError, ready, isAuth}
 }

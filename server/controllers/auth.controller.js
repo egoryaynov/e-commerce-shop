@@ -13,7 +13,7 @@ exports.register = async (req, res, next) => {
             firstName, secondName, middleName, email, password
         })
 
-        await sendToken(user, 201, res)
+        await sendSignedToken(user, 201, res)
     } catch (error) {
         next(error)
     }
@@ -37,12 +37,12 @@ exports.login = async (req, res, next) => {
             return next(new ErrorResponse('Invalid credentials', 401))
         }
 
-        await sendToken(user, 200, res)
+        await sendSignedToken(user, 200, res)
     } catch (error) {
         next(error)
     }
 }
-exports.loginAdmin = async (req, res, next) => {
+exports.adminLogin = async (req, res, next) => {
     const {email, password} = req.body
 
     if (!email || !password) {
@@ -64,7 +64,7 @@ exports.loginAdmin = async (req, res, next) => {
             return next(new ErrorResponse('Invalid credentials', 401))
         }
 
-        await sendToken(user, 200, res)
+        await sendSignedToken(user, 200, res)
     } catch (error) {
         next(error)
     }
@@ -140,7 +140,7 @@ exports.resetPassword = async (req, res, next) => {
     }
 }
 
-exports.tokenVerify = async (req, res, next) => {
+exports.verifyAdminToken = async (req, res, next) => {
     let token
 
     if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
@@ -154,16 +154,28 @@ exports.tokenVerify = async (req, res, next) => {
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-        res.status(200).json({
-            success: true,
-            token
+        await User.find({
+            _id: decoded.userId,
+            role: 'Admin'
+        }, (err, doc) => {
+            if (err || !doc) {
+                res.status(401).json({
+                    success: false,
+                    message: 'Access denied'
+                })
+            } else {
+                res.status(200).json({
+                    success: true,
+                    token
+                })
+            }
         })
     } catch (e) {
         next(e)
     }
 }
 
-const sendToken = async (user, statusCode, res) => {
+const sendSignedToken = async (user, statusCode, res) => {
     const token = await user.getSignedToken()
     res.status(statusCode).json({success: true, token})
 }
