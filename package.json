@@ -8,6 +8,7 @@
   "scripts": {
     "client": "yarn --cwd ./client/ start",
     "server": "yarn --cwd ./server/ start",
+    "admin-panel": "yarn --cwd ./admin_panel/ start",
     "dev": "concurrently \"yarn server\" \"yarn client\""
   },
   "devDependencies": {

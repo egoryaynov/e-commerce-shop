@@ -52,6 +52,7 @@ exports.deleteProduct = async (req, res, next) => {
         next(error)
     }
 }
+
 exports.getProducts = async (req, res, next) => {
     const [aggregateQuery, aggregateSort, page, limit] = await getAggregateQuery(req)
     const options = {
@@ -117,6 +118,7 @@ exports.uploadImages = async (req, res, next) => {
         next(error)
     }
 }
+
 exports.createComment = async (req, res, next) => {
     const {productId, rating, review} = req.body
     const user = req.user
