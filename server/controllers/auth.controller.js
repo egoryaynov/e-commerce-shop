@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken')
+
 const User = require('../models/User')
 const ErrorResponse = require('../utils/ErrorResponse')
 const sendEmail = require('../utils/sendEmail')
@@ -25,6 +27,33 @@ exports.login = async (req, res, next) => {
 
     try {
         const user = await User.findOne({email}).select("+password")
+
+        if (!user) {
+            return next(new ErrorResponse('Invalid credentials', 401))
+        }
+
+        const isMatch = await user.matchPassword(password)
+        if (!isMatch) {
+            return next(new ErrorResponse('Invalid credentials', 401))
+        }
+
+        await sendToken(user, 200, res)
+    } catch (error) {
+        next(error)
+    }
+}
+exports.loginAdmin = async (req, res, next) => {
+    const {email, password} = req.body
+
+    if (!email || !password) {
+        return next(new ErrorResponse('Please provide email and password', 400))
+    }
+
+    try {
+        const user = await User.findOne({
+            email,
+            role: 'Admin'
+        }).select("+password")
 
         if (!user) {
             return next(new ErrorResponse('Invalid credentials', 401))
@@ -104,7 +133,30 @@ exports.resetPassword = async (req, res, next) => {
 
         res.status(201).json({
             success: true,
-            data: 'Password Reset Success'
+            message: 'Password Reset Success'
+        })
+    } catch (e) {
+        next(e)
+    }
+}
+
+exports.tokenVerify = async (req, res, next) => {
+    let token
+
+    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+        token = req.headers.authorization.split(' ')[1]
+    }
+
+    try {
+        if (!token) {
+            return next(new ErrorResponse('Please provide JWT token', 404))
+        }
+
+        const decoded = jwt.verify(token, process.env.JWT_SECRET)
+
+        res.status(200).json({
+            success: true,
+            token
         })
     } catch (e) {
         next(e)
