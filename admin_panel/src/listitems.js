@@ -41,12 +41,15 @@ export const mainListItems = (
             </ListItem>
         </NavLink>
 
-        <ListItem button>
-            <ListItemIcon>
-                <PeopleIcon/>
-            </ListItemIcon>
-            <ListItemText primary="Customers"/>
-        </ListItem>
+        <NavLink to='/customers' className='navbar__link' activeClassName='navbar__active'>
+            <ListItem button>
+                <ListItemIcon>
+                    <PeopleIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Customers"/>
+            </ListItem>
+        </NavLink>
+
         <ListItem button>
             <ListItemIcon>
                 <BarChartIcon/>

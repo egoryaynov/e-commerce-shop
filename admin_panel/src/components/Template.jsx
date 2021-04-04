@@ -14,6 +14,9 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import {mainListItems, secondaryListItems} from '../listitems';
 import {List} from "@material-ui/core";
+import {Copyright} from "./common/Copyright";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
 
 const drawerWidth = 240;
 
@@ -38,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.leavingScreen,
         }),
     },
+    appBarSpacer: theme.mixins.toolbar,
     appBarShift: {
         marginLeft: drawerWidth,
         width: `calc(100% - ${drawerWidth}px)`,
@@ -76,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     content: {
+        position: 'relative',
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
@@ -144,7 +149,13 @@ export default function Template(props) {
                 <List>{secondaryListItems}</List>
             </Drawer>
             <main className={classes.content}>
-                {props.children}
+                <div className={classes.appBarSpacer}/>
+                <Container maxWidth="lg" className={classes.container}>
+                    {props.children}
+                </Container>
+                <Box pt={4}>
+                    <Copyright/>
+                </Box>
             </main>
         </div>
     );
