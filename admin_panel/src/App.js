@@ -3,10 +3,12 @@ import {useAuth} from "./hooks/useAuth";
 import {Redirect, Route} from "react-router";
 import SignIn from "./pages/SignIn";
 import {Switch} from "react-router-dom";
-import Panel from "./pages/Panel";
+import Dashboard from "./pages/Dashboard";
 import {useHttp} from "./hooks/useHttp";
 import {AuthApi} from "./api/AuthApi";
 import {CircularProgress} from "@material-ui/core";
+import Orders from "./pages/Orders";
+import Products from "./pages/Products";
 
 const App = () => {
     const {request, isLoading, error: errorOnLogin} = useHttp()
@@ -34,7 +36,6 @@ const App = () => {
         <TokenContext.Provider value={{
             login, logout, token, isAuth
         }}>
-
             {!isAuth && <Switch>
                 <Route exact
                        path='/login'
@@ -45,15 +46,15 @@ const App = () => {
                 />
 
                 <Redirect to='/login'/>
-            </Switch>
-            }
+            </Switch>}
 
             {isAuth && <Switch>
-                <Route exact path='/panel' render={() => <Panel/>}/>
+                <Route exact path='/dashboard' render={() => <Dashboard/>}/>
+                <Route exact path='/orders' render={() => <Orders/>}/>
+                <Route exact path='/products' render={() => <Products/>}/>
 
-                <Redirect to='/panel'/>
-            </Switch>
-            }
+                <Redirect to='/dashboard'/>
+            </Switch>}
         </TokenContext.Provider>
     )
 }
