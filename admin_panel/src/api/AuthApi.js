@@ -5,7 +5,15 @@ export class AuthApi {
         this.url = `${API.baseUrl}/auth/admin/verify`
         this.method = 'POST'
         this.headers = {
-            Authorization: token
+            Authorization: `Bearer ${token}`
+        }
+    }
+
+    login = (email, password) => {
+        this.url = `${API.baseUrl}/auth/admin/login`
+        this.method = 'POST'
+        this.body = {
+            email, password
         }
     }
 }

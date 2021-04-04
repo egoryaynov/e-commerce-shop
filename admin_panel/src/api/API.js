@@ -1,3 +1,3 @@
 export class API {
-    static baseUrl = 'localhost:5000/api'
+    static baseUrl = 'http://localhost:3000/api'
 }

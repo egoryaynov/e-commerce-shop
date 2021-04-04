@@ -32,18 +32,24 @@ export const useAuth = () => {
                 const options = new AuthApi()
 
                 options.validateToken(data.token)
-                await request(options)
 
-                setIsAuth(true)
+                try {
+                    await request(options)
+
+                    setIsAuth(true)
+                } catch (e) {
+                    logout()
+                    setIsAuth(false)
+                } finally {
+                    setReady(r => true)
+                }
             }
 
-            try {
-                validateToken().then(r => setReady(r => true))
-            } catch (e) {
-                logout()
-            }
+            validateToken().then()
+        } else {
+            setReady(true)
         }
-    }, [login, logout, request])
+    }, [login, logout, request, token])
 
-    return {token, login, logout, error, clearError, ready, isAuth}
+    return {token, login, logout, error, clearError, ready, isAuth, setIsAuth}
 }
