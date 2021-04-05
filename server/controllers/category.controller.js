@@ -23,3 +23,20 @@ exports.createCategory = async (req, res, next) => {
         next(error)
     }
 }
+
+exports.getCategories = async (req, res, next) => {
+    try {
+        await Category.find({}, (err, doc) => {
+            if (err) {
+                return next(new ErrorResponse('Error on load categories', 500))
+            } else {
+                res.status(200).json({
+                    success: true,
+                    categories: doc
+                })
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
+}

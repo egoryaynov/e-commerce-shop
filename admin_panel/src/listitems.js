@@ -10,6 +10,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import StorefrontIcon from '@material-ui/icons/Storefront';
+import CategoryIcon from '@material-ui/icons/Category';
 import {NavLink} from "react-router-dom";
 
 export const mainListItems = (
@@ -47,6 +48,15 @@ export const mainListItems = (
                     <PeopleIcon/>
                 </ListItemIcon>
                 <ListItemText primary="Customers"/>
+            </ListItem>
+        </NavLink>
+
+        <NavLink to='/categories' className='navbar__link' activeClassName='navbar__active'>
+            <ListItem button>
+                <ListItemIcon>
+                    <CategoryIcon/>
+                </ListItemIcon>
+                <ListItemText primary="Categories"/>
             </ListItem>
         </NavLink>
 

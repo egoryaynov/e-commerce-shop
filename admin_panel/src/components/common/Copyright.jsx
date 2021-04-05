@@ -18,8 +18,8 @@ export function Copyright() {
     return (
         <Typography className={classes.copyright} variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Your Website
+            <Link target='_blank' color="inherit" href="https://github.com/egoryaynov/e-commerce-shop">
+                e-commerce-shop
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
