@@ -5,13 +5,19 @@ import ColorPicker from "material-ui-color-picker";
 
 const AddColorPopup = ({open, handleClosePopup}) => {
     const [name, setName] = useState('')
-    const [hex, setHex] = useState('')
+    const [hex, setHex] = useState('#000')
 
     const handleAdd = () => {
         handleClosePopup(name, hex)
+        resetForm()
     }
     const handleCancel = () => {
         handleClosePopup()
+        resetForm()
+    }
+    const resetForm = () => {
+        setName('')
+        setHex('#000')
     }
 
     return (

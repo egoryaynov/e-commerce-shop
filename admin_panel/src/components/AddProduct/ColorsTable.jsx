@@ -7,75 +7,81 @@ import TableBody from "@material-ui/core/TableBody";
 import AddIcon from "@material-ui/icons/Add";
 import Button from "@material-ui/core/Button";
 import AddColorPopup from "./AddColorPopup";
+import ClearIcon from '@material-ui/icons/Clear';
 
-function createData(name, hex) {
-    return {name, hex};
-}
+const ColorsTable = React.memo(({setColors: setFormColors}) => {
+    const [colors, setColors] = useState([]);
+    const [mustShowPopup, setMustShowPopup] = useState(false);
 
-const rows = [];
+    useEffect(() => {
+        setFormColors(colors)
+    }, [colors])
 
-const ColorsTable = React.memo(() => {
-        const [colors, setColors] = useState([]);
-        const [mustShowPopup, setMustShowPopup] = useState(false);
-
-        useEffect(() => {
-            if (colors.length > 0) {
-                const addedColor = colors[colors.length - 1]
-
-                rows.push(createData(addedColor.name, addedColor.hex))
-            }
-        }, [colors])
-
-        const addColor = (name, hex) => {
-            setColors([...colors, {name, hex}])
-        }
-
-        const handleOpenPopup = () => {
-            setMustShowPopup(true)
-        }
-        const handleClosePopup = (name, hex) => {
-            if (name && hex) {
-                console.log(name, hex)
-                alert()
-                addColor(name, hex)
-            }
-            setMustShowPopup(false)
-        }
-
-        return (
-            <>
-                <Button
-                    variant="text"
-                    color="primary"
-                    startIcon={<AddIcon/>}
-                    onClick={handleOpenPopup}
-                >
-                    Add color
-                </Button>
-                <AddColorPopup open={mustShowPopup} addColor={addColor} handleClosePopup={handleClosePopup}/>
-
-                {colors.length > 0 &&
-                <TableContainer>
-                    <Table size="small" aria-label="a dense table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>Hex</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <TableRow key={row.name}>
-                                    <TableCell>{row.name}</TableCell>
-                                    <TableCell>{row.hex}</TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>}
-            </>
-        );
+    const addColor = (name, hex) => {
+        setColors([...colors, {name, hex}])
     }
-);
+
+    const handleOpenPopup = () => {
+        setMustShowPopup(true)
+    }
+    const handleClosePopup = (name, hex) => {
+        if (name && hex) {
+            addColor(name, hex)
+        }
+        setMustShowPopup(false)
+    }
+
+    const deleteRow = (row) => {
+        setColors(colors.filter(color => color.name !== row.name))
+    }
+
+    return (
+        <>
+            <Button
+                variant="text"
+                color="primary"
+                startIcon={<AddIcon/>}
+                onClick={handleOpenPopup}
+            >
+                Add color
+            </Button>
+
+            <AddColorPopup open={mustShowPopup} addColor={addColor} handleClosePopup={handleClosePopup}/>
+
+            {colors.length > 0 &&
+            <TableContainer>
+                <Table size="small" aria-label="a dense table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Name</TableCell>
+                            <TableCell>Hex</TableCell>
+                            <TableCell>Color</TableCell>
+                            <TableCell>Actions</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {colors.map((color) => (
+                            <TableRow key={color.name}>
+                                <TableCell>{color.name}</TableCell>
+                                <TableCell>{color.hex}</TableCell>
+                                <TableCell>
+                                    <div style={{
+                                        borderRadius: '50%',
+                                        backgroundColor: color.hex,
+                                        width: '30px',
+                                        height: '30px'
+                                    }}/>
+                                </TableCell>
+                                <TableCell style={{cursor: 'pointer'}} onClick={() => deleteRow(color)}>
+                                    <ClearIcon/>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>}
+        </>
+    );
+});
 
 export default ColorsTable;

@@ -1,8 +1,7 @@
 import {Switch} from "react-router-dom";
 import {Redirect, Route} from "react-router";
-import AddProduct from "./components/AddProduct/AddProduct";
 
-import {Categories, Customers, Dashboard, Orders, Products, SignIn} from "./pages";
+import {Categories, Customers, Dashboard, Orders, Products, SignIn, AddProduct} from "./pages";
 
 export const routes = (isAuth, requestLogin, errorOnLogin, errorOnAuthorize, isLoading) => {
     return (
