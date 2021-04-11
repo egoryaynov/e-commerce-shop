@@ -6,6 +6,10 @@ import reportWebVitals from './reportWebVitals';
 
 import {BrowserRouter} from 'react-router-dom'
 
+window.addEventListener("unhandledrejection", function (event) {
+    console.error('UNHANDLED REJECTION! Reason: ' + event.reason)
+})
+
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>

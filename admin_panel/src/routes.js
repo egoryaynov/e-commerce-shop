@@ -1,7 +1,7 @@
 import {Switch} from "react-router-dom";
 import {Redirect, Route} from "react-router";
 
-import {Categories, Customers, Dashboard, Orders, Products, SignIn, AddProduct} from "./pages";
+import {Categories, Customers, Dashboard, Orders, Products, SignIn, AddProduct, Product} from "./pages";
 
 export const routes = (isAuth, requestLogin, errorOnLogin, errorOnAuthorize, isLoading) => {
     return (
@@ -21,8 +21,11 @@ export const routes = (isAuth, requestLogin, errorOnLogin, errorOnAuthorize, isL
             {isAuth && <Switch>
                 <Route exact path='/dashboard' render={() => <Dashboard/>}/>
                 <Route exact path='/orders' render={() => <Orders/>}/>
+
                 <Route exact path='/products' render={() => <Products/>}/>
+                <Route exact path='/product/:id' render={() => <Product/>}/>
                 <Route exact path='/products/add' render={() => <AddProduct/>}/>
+
                 <Route exact path='/customers' render={() => <Customers/>}/>
                 <Route exact path='/categories' render={() => <Categories/>}/>
 

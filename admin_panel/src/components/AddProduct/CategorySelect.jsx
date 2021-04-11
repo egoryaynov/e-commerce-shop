@@ -12,7 +12,7 @@ const CategorySelect = ({categories, setCategory}) => {
         if (selectedCategory.length > 0) {
             setCategory(selectedCategory)
         }
-    }, [selectedCategory]);
+    }, [selectedCategory, setCategory]);
 
     return (
         <FormControl required fullWidth>

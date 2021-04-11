@@ -6,11 +6,11 @@ const ErrorResponse = require('../utils/ErrorResponse')
 const {getAggregateQuery} = require('../utils/getProductsTools')
 
 exports.createProduct = async (req, res, next) => {
-    const {name, price, discount, colors, categoryId: category} = req.body
+    const {name, price, description, discount, colors, categoryId: category} = req.body
 
     try {
         const product = new Product({
-            name, price, colors, category
+            name, price, colors, category, description
         })
 
         if (discount) {

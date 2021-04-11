@@ -11,6 +11,7 @@ import {TokenContext} from "../context/TokenContext";
 import {ProductsApi} from "../api/ProductsApi";
 import {useHttp} from "../hooks/useHttp";
 import {Alert} from "@material-ui/lab";
+import {Redirect} from "react-router";
 
 const useStyle = makeStyles((theme) => ({
     form: {
@@ -33,19 +34,25 @@ const AddProduct = () => {
     const [name, setName] = useState('');
     const [price, setPrice] = useState('0');
     const [discount, setDiscount] = useState('');
-    const [category, setCategory] = useState('');
+    const [categoryId, setCategoryId] = useState('');
+    const [description, setDescription] = useState('');
     const [colors, setColors] = useState([]);
+
+    const [createdProductId, setCreatedProductId] = useState(null)
 
     const onSubmit = (event) => {
         event.preventDefault()
-
         const options = new ProductsApi()
-        const requestPayload = {name, price, category, colors}
+        const requestPayload = {name, price, categoryId, colors, description}
         if (discount.length > 0) requestPayload.discount = discount
 
         options.createProduct(token, requestPayload)
-        request(options).then()
+        request(options).then(r => {
+            setCreatedProductId(r.product._id)
+        })
     }
+
+    if (createdProductId) return <Redirect to={`/product/${createdProductId}`}/>
 
     return (
         <Template title='AddProduct'>
@@ -80,9 +87,19 @@ const AddProduct = () => {
                             onChange={(event) => setDiscount(event.target.value)}
                             variant="filled"
                         />
+                        <TextField
+                            required
+                            placeholder="Description"
+                            multiline
+                            rows={2}
+                            fullWidth
+                            value={description}
+                            onChange={(event) => setDescription(event.target.value)}
+                            rowsMax={6}
+                        />
 
                         <ColorsTable setColors={setColors}/>
-                        <CategorySelect categories={categories} setCategory={setCategory}/>
+                        <CategorySelect categories={categories} setCategory={setCategoryId}/>
 
                         {error && <Alert severity="error">{error}</Alert>}
                         <Button

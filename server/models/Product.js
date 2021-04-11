@@ -8,23 +8,24 @@ const ColorSchema = new Schema({
 }, {versionKey: false})
 const CommentSchema = new Schema({
     author: {type: String, required: [true, 'Please provide author']},
-    rating: {type: Number, min: 1, max: 5,  required: [true, 'Please provide rating']},
+    rating: {type: Number, min: 1, max: 5, required: [true, 'Please provide rating']},
     review: String
 }, {versionKey: false})
 
 const ProductSchema = new Schema({
-    name: {type: String, unique: true , required: [true, 'Please provide product name']},
+    name: {type: String, unique: true, required: [true, 'Please provide product name']},
     normalizedName: {type: String, unique: true, select: false},
-    price: {type: Number , required: [true, 'Please provide product price']},
+    price: {type: Number, required: [true, 'Please provide product price']},
     discount: Number,
     rating: Double,
     colors: [ColorSchema],
     comments: [CommentSchema],
+    description: {type: String, required: [true, 'Please provide product description']},
     category: {type: Types.ObjectId, ref: 'Category'},
     images: [String]
 }, {versionKey: false})
 
-ProductSchema.pre('save', function(next) {
+ProductSchema.pre('save', function (next) {
     if (!this.isModified('name')) {
         next();
     }
