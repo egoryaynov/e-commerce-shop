@@ -11,54 +11,15 @@ import LayersIcon from '@material-ui/icons/Layers';
 import AssignmentIcon from '@material-ui/icons/Assignment';
 import StorefrontIcon from '@material-ui/icons/Storefront';
 import CategoryIcon from '@material-ui/icons/Category';
-import {NavLink} from "react-router-dom";
+import NavbarListItem from "./components/NavbarListItem";
 
 export const mainListItems = (
     <div>
-        <NavLink to='/dashboard' className='navbar__link' activeClassName='navbar__active'>
-            <ListItem button>
-                <ListItemIcon>
-                    <DashboardIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Dashboard"/>
-            </ListItem>
-        </NavLink>
-
-        <NavLink to='/orders' className='navbar__link' activeClassName='navbar__active'>
-            <ListItem button>
-                <ListItemIcon>
-                    <ShoppingCartIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Orders"/>
-            </ListItem>
-        </NavLink>
-
-        <NavLink to='/products' className='navbar__link' activeClassName='navbar__active'>
-            <ListItem button>
-                <ListItemIcon>
-                    <StorefrontIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Products"/>
-            </ListItem>
-        </NavLink>
-
-        <NavLink to='/customers' className='navbar__link' activeClassName='navbar__active'>
-            <ListItem button>
-                <ListItemIcon>
-                    <PeopleIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Customers"/>
-            </ListItem>
-        </NavLink>
-
-        <NavLink to='/categories' className='navbar__link' activeClassName='navbar__active'>
-            <ListItem button>
-                <ListItemIcon>
-                    <CategoryIcon/>
-                </ListItemIcon>
-                <ListItemText primary="Categories"/>
-            </ListItem>
-        </NavLink>
+        <NavbarListItem route='/dashboard' text='Dashboard' IconComponent={DashboardIcon}/>
+        <NavbarListItem route='/orders' text='Orders' IconComponent={ShoppingCartIcon}/>
+        <NavbarListItem route='/products' text='Products' IconComponent={StorefrontIcon}/>
+        <NavbarListItem route='/customers' text='Customers' IconComponent={PeopleIcon}/>
+        <NavbarListItem route='/categories' text='Categories' IconComponent={CategoryIcon}/>
 
         <ListItem button>
             <ListItemIcon>
