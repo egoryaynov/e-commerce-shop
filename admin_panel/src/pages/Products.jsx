@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import Template from "../components/Template";
 import {useHttp} from "../hooks/useHttp";
 import {Pagination} from "@material-ui/lab";
@@ -6,11 +6,12 @@ import Grid from "@material-ui/core/Grid";
 import {ProductsApi} from "../api/ProductsApi";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
-import {CircularProgress, Paper} from "@material-ui/core";
+import {CircularProgress} from "@material-ui/core";
 import {Link} from "react-router-dom";
 import AddIcon from '@material-ui/icons/Add';
 import Typography from "@material-ui/core/Typography";
 import ProductItem from "../components/Products/ProductItem";
+import {TokenContext} from "../context/TokenContext";
 
 const useStyles = makeStyles((theme) => ({
     addButton: {
@@ -25,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
 const Products = () => {
     const classes = useStyles();
 
+    const {token} = useContext(TokenContext)
+
     const {request, isLoading, error} = useHttp()
     const [products, setProducts] = useState([])
     const [page, setPage] = useState(1)
@@ -33,8 +36,15 @@ const Products = () => {
     const changePage = (event, value) => {
         setPage(value)
     }
+    const deleteProduct = (productId) => {
+        const options = new ProductsApi()
+        options.deleteProduct(token, productId)
 
-    useEffect(() => {
+        request(options).then()
+        requestProducts()
+    }
+
+    const requestProducts = () => {
         const options = new ProductsApi()
         options.getProducts(page)
 
@@ -43,7 +53,11 @@ const Products = () => {
                 setProducts(r.products.docs)
                 setPagesCount(r.products.totalPages)
             })
-    }, [page, request])
+    }
+
+    useEffect(() => {
+        requestProducts()
+    }, [page])
 
     return (
         <Template title='Products'>
@@ -74,8 +88,8 @@ const Products = () => {
                         {!isLoading && products.length > 0 &&
                         products.map(product => {
                             return (
-                                <Grid item xs={3} md={3} lg={3}>
-                                    <ProductItem key={product._id} product={product}/>
+                                <Grid item xs={6} md={4} lg={3}>
+                                    <ProductItem key={product._id} product={product} deleteProduct={deleteProduct}/>
                                 </Grid>
                             )
                         })}
