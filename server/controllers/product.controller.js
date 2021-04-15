@@ -99,7 +99,7 @@ exports.uploadImages = async (req, res, next) => {
 
     try {
         const product = await Product.findById(productId)
-        if (!product.images) {
+        if (product.images.length === 0) {
             product.images = []
         }
 

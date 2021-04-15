@@ -9,13 +9,16 @@ export const useHttp = () => {
                                            method = 'GET',
                                            body = null,
                                            headers = {},
-                                           contentType = 'application/json'
+                                           contentType = 'application/json',
+                                           isFormData = false
                                        }) => {
         setIsLoading(true)
 
         const makeRequest = async () => {
-            if (body) {
+            if (body && !isFormData) {
                 body = JSON.stringify(body)
+            }
+            if (contentType) {
                 headers['Content-Type'] = contentType
             }
 

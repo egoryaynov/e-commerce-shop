@@ -22,9 +22,7 @@ const ProductItem = ({product, deleteProduct}) => {
 
     const [redirectId, setRedirectId] = useState(null)
     const [mustShowDialog, setMustShowDialog] = useState(false)
-
-    console.log(product)
-
+    
     const redirectToProduct = (id) => {
         setRedirectId(id)
     }

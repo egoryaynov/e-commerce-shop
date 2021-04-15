@@ -1,9 +1,8 @@
 import {API} from "./API";
 
 export class ProductsApi {
-    getProducts = ({page}) => {
-        // todo add pagination
-        this.url = `${API.baseUrl}/product`
+    getProducts = (page) => {
+        this.url = `${API.baseUrl}/product?page=${page}`
         this.method = 'GET'
     }
 
@@ -25,5 +24,27 @@ export class ProductsApi {
         this.body = {
             productId
         }
+    }
+
+    getProductById = (productId) => {
+        this.url = `${API.baseUrl}/product/${productId}`
+        this.method = 'GET'
+    }
+
+    addImages = (token, photoFiles, productId) => {
+        const formData = new FormData()
+        for (let i = 0; i < photoFiles.length; i++) {
+            formData.append('file', photoFiles[i])
+        }
+        formData.append('productId', productId)
+
+        this.url = `${API.baseUrl}/product/image`
+        this.method = 'POST'
+        this.isFormData = true
+        this.contentType = null
+        this.headers = {
+            Authorization: `Bearer ${token}`
+        }
+        this.body = formData
     }
 }
