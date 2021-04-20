@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
+import {CircularProgress, FormControl, InputLabel, MenuItem, Select} from "@material-ui/core";
+import {useCategories} from "../../../hooks/useCategories";
 
-const CategorySelect = ({categories, setCategory}) => {
+const CategorySelect = ({setCategory}) => {
     const [selectedCategory, setSelectedCategory] = useState('');
+    const {isLoading, categories} = useCategories()
 
     const handleChange = (event) => {
         setSelectedCategory(event.target.value)
@@ -13,6 +15,8 @@ const CategorySelect = ({categories, setCategory}) => {
             setCategory(selectedCategory)
         }
     }, [selectedCategory, setCategory]);
+
+    if (isLoading) return <CircularProgress/>
 
     return (
         <FormControl required fullWidth>

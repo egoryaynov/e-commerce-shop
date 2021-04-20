@@ -7,6 +7,7 @@ import {AppBar, CircularProgress, Tab, Tabs} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import ImageTab from "../components/Product/ImageTab";
+import InfoTab from "../components/Product/InfoTab";
 
 function TabPanel(props) {
     const {children, value, index, ...other} = props;
@@ -67,7 +68,7 @@ const Product = () => {
                         </Tabs>
                     </AppBar>
                     <TabPanel value={value} index={0}>
-                        Item One
+                        <InfoTab product={product}/>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <ImageTab images={product.images} setProduct={setProduct} productId={product._id}/>
