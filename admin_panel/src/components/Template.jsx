@@ -13,10 +13,11 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import {mainListItems, secondaryListItems} from '../listitems';
-import {List} from "@material-ui/core";
+import {Button, List} from "@material-ui/core";
 import {Copyright} from "./common/Copyright";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
+import {useAuth} from "../hooks/useAuth";
 
 const drawerWidth = 240;
 
@@ -94,10 +95,15 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         overflow: 'auto',
         flexDirection: 'column',
+    },
+    signOutBtn: {
+        marginLeft: '10px'
     }
 }));
 
 export default function Template(props) {
+    const {logout} = useAuth()
+
     const classes = useStyles();
     const [open, setOpen] = React.useState(true);
     const handleDrawerOpen = () => {
@@ -129,6 +135,8 @@ export default function Template(props) {
                             <NotificationsIcon/>
                         </Badge>
                     </IconButton>
+                    <Button onClick={logout} className={classes.signOutBtn} variant={'contained'} color={'secondary'}>Sign
+                        out</Button>
                 </Toolbar>
             </AppBar>
             <Drawer

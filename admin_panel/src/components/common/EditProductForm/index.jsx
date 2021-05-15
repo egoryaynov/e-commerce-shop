@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const EditProductForm = ({onSubmit, isDisabled, config}) => {
+const EditProductForm = ({onSubmit, isDisabled, config, buttonText}) => {
     const classes = useStyles()
 
     return (
@@ -68,7 +68,7 @@ const EditProductForm = ({onSubmit, isDisabled, config}) => {
                 disabled={isDisabled || false}
                 color="primary"
             >
-                Add
+                {buttonText}
             </Button>
         </form>
     );

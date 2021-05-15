@@ -48,61 +48,6 @@ const AddProduct = () => {
         <Template title='AddProduct'>
             <Grid item xs={12} md={12} lg={12}>
                 <Paper className={classes.paper}>
-                    {/*<form noValidate autoComplete="off" method='post' onSubmit={onSubmit} className={classes.form}>*/}
-                    {/*    <TextField*/}
-                    {/*        required*/}
-                    {/*        fullWidth*/}
-                    {/*        id="filled-required"*/}
-                    {/*        label="Name"*/}
-                    {/*        value={name}*/}
-                    {/*        onChange={(event) => setName(event.target.value)}*/}
-                    {/*        variant="filled"*/}
-                    {/*    />*/}
-                    {/*    <TextField*/}
-                    {/*        required*/}
-                    {/*        fullWidth*/}
-                    {/*        id="outlined-number"*/}
-                    {/*        type="number"*/}
-                    {/*        label="Price"*/}
-                    {/*        value={price}*/}
-                    {/*        onChange={(event) => setPrice(event.target.value)}*/}
-                    {/*        variant="filled"*/}
-                    {/*    />*/}
-                    {/*    <TextField*/}
-                    {/*        fullWidth*/}
-                    {/*        id="outlined-number"*/}
-                    {/*        type="number"*/}
-                    {/*        label="Discount (new price, optional field)"*/}
-                    {/*        value={discount}*/}
-                    {/*        onChange={(event) => setDiscount(event.target.value)}*/}
-                    {/*        variant="filled"*/}
-                    {/*    />*/}
-                    {/*    <TextField*/}
-                    {/*        required*/}
-                    {/*        placeholder="Description"*/}
-                    {/*        multiline*/}
-                    {/*        rows={2}*/}
-                    {/*        fullWidth*/}
-                    {/*        value={description}*/}
-                    {/*        onChange={(event) => setDescription(event.target.value)}*/}
-                    {/*        rowsMax={6}*/}
-                    {/*    />*/}
-
-                    {/*    <ColorsTable setColors={setColors}/>*/}
-                    {/*    <CategorySelect setCategory={setCategoryId}/>*/}
-
-                    {/*    {error && <Alert severity="error">{error}</Alert>}*/}
-                    {/*    <Button*/}
-                    {/*        type="submit"*/}
-                    {/*        fullWidth*/}
-                    {/*        variant="contained"*/}
-                    {/*        disabled={isCategoriesLoading}*/}
-                    {/*        color="primary"*/}
-                    {/*        className={classes.submit}*/}
-                    {/*    >*/}
-                    {/*        Add*/}
-                    {/*    </Button>*/}
-                    {/*</form>*/}
                     <EditProductForm onSubmit={onSubmit} config={{
                         name,
                         setName,
@@ -116,7 +61,7 @@ const AddProduct = () => {
                         setDescription,
                         colors,
                         setColors
-                    }} isDisabled={isCreatingProduct}/>
+                    }} isDisabled={isCreatingProduct} buttonText={'Add'}/>
                 </Paper>
             </Grid>
         </Template>

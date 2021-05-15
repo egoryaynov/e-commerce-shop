@@ -1,25 +1,56 @@
 import React, {useEffect, useState} from 'react';
 import EditProductForm from "../common/EditProductForm";
+import {useCategories} from "../../hooks/useCategories";
+import {CircularProgress, Typography} from "@material-ui/core";
 
 const InfoTab = ({product}) => {
+    const {isLoading: isCategoriesLoading, categories} = useCategories()
+
     const [categoryId, setCategoryId] = useState(product.category._id)
-    const [name, setName] = useState(product.category.name)
+    const [name, setName] = useState(product.name)
     const [colors, setColors] = useState(product.category.colors)
     const [description, setDescription] = useState(product.category.description)
-    const [discount, setDiscount] = useState(product.category.discount)
+    const [discount, setDiscount] = useState(product.category.discount || '')
     const [price, setPrice] = useState(product.category.price)
 
-    useEffect(() => {
-        alert()
-    }, [categoryId, name, colors, description, discount, price]);
+    const [selectedCategoryName, setSelectedCategoryName] = useState('')
+    const [categoryChanged, setCategoryChanged] = useState(false)
+
+    // useEffect(() => {
+    //     console.log(categoryId)
+    //     console.log(name)
+    //     console.log(colors)
+    //     console.log(description)
+    //     console.log(discount)
+    //     console.log(price)
+    // }, [categoryId, name, colors, description, discount, price]);
 
     const onSubmit = () => {
 
     }
 
-    console.log(product)
+    useEffect(() => {
+        if (categories) {
+            const selectedCategory = categories.find(category => categoryId === category._id)
+
+            setSelectedCategoryName(selectedCategory.name)
+        }
+    }, [categories]);
+
+    const setCategoryIdWrapper = (categoryId) => {
+        setCategoryChanged(true)
+
+        setCategoryId(categoryId)
+    }
+
+    if (isCategoriesLoading) return <CircularProgress/>
+
     return (
         <>
+            <Typography hidden={categoryChanged} color={'primary'} variant={'subtitle1'}>
+                Current category is: {selectedCategoryName}
+            </Typography>
+
             <EditProductForm onSubmit={onSubmit} config={{
                 name,
                 setName,
@@ -28,12 +59,12 @@ const InfoTab = ({product}) => {
                 discount,
                 setDiscount,
                 categoryId,
-                setCategoryId,
+                setCategoryIdWrapper: setCategoryId,
                 description,
                 setDescription,
                 colors,
-                setColors
-            }}/>
+                setColors,
+            }} buttonText='Change'/>
         </>
     );
 };

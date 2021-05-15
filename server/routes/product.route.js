@@ -14,11 +14,11 @@ const {
 
 router.get('/', getProducts)
 router.get('/:productId', getProductById)
+router.post('/comment', protect, createComment)
 
 // ADMIN ENDPOINTS
 router.post('/', protect, protectAdmin, createProduct)
 router.delete('/', protect, protectAdmin, deleteProduct)
 router.post('/image', protect, protectAdmin, upload.array('file', 5), uploadImages)
-router.post('/comment', protect, protectAdmin, createComment)
 
 module.exports = router
