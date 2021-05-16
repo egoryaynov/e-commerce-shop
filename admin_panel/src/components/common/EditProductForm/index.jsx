@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const EditProductForm = ({onSubmit, isDisabled, config, buttonText}) => {
+const EditProductForm = ({onSubmit, isDisabled, config, buttonText, currentColors}) => {
     const classes = useStyles()
 
     return (
@@ -57,7 +57,7 @@ const EditProductForm = ({onSubmit, isDisabled, config, buttonText}) => {
                 rowsMax={6}
             />
 
-            <ColorsTable setColors={config.setColors}/>
+            <ColorsTable setColors={config.setColors} currentColors={currentColors}/>
             <CategorySelect setCategory={config.setCategoryId}/>
 
             {/*{error && <Alert severity="error">{error}</Alert>}*/}

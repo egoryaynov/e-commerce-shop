@@ -9,8 +9,8 @@ import Button from "@material-ui/core/Button";
 import AddColorPopup from "./AddColorPopup";
 import ClearIcon from '@material-ui/icons/Clear';
 
-const ColorsTable = React.memo(({setColors: setFormColors}) => {
-    const [colors, setColors] = useState([]);
+const ColorsTable = React.memo(({setColors: setFormColors, currentColors}) => {
+    const [colors, setColors] = useState(currentColors || []);
     const [mustShowPopup, setMustShowPopup] = useState(false);
 
     useEffect(() => {

@@ -54,7 +54,7 @@ const Product = () => {
             }
         }
 
-        requestProduct().then()
+        requestProduct()
     }, [])
 
     return (
@@ -68,7 +68,7 @@ const Product = () => {
                         </Tabs>
                     </AppBar>
                     <TabPanel value={value} index={0}>
-                        <InfoTab product={product}/>
+                        <InfoTab productId={productId} product={product}/>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <ImageTab images={product.images} setProduct={setProduct} productId={product._id}/>

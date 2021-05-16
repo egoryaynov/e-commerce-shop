@@ -53,6 +53,36 @@ exports.deleteProduct = async (req, res, next) => {
     }
 }
 
+exports.editProduct = async (req, res, next) => {
+    let {productId, name, price, description, discount, colors, categoryId: category} = req.body
+
+    colors = colors.map(color => {
+        return {hex: color.hex, name: color.name}
+    })
+    
+    try {
+        await Product.findByIdAndUpdate(productId, {
+            name,
+            price,
+            description,
+            discount,
+            colors,
+            category
+        }, {overwrite: true}, async (err, result) => {
+            if (err || !result) {
+                return next(new ErrorResponse('Error on edit product', 404))
+            } else {
+                res.status(200).json({
+                    success: true,
+                    message: 'Product edit successfully'
+                })
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
 exports.getProducts = async (req, res, next) => {
     const [aggregateQuery, aggregateSort, page, limit] = await getAggregateQuery(req)
     const options = {
