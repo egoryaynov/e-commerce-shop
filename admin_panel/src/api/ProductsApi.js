@@ -31,6 +31,15 @@ export class ProductsApi {
         this.method = 'GET'
     }
 
+    editProduct = (token, product) => {
+        this.url = `${API.baseUrl}/product`
+        this.method = 'PUT'
+        this.headers = {
+            Authorization: `Bearer ${token}`
+        }
+        this.body = product
+    }
+
     addImages = (token, photoFiles, productId) => {
         const formData = new FormData()
         for (let i = 0; i < photoFiles.length; i++) {

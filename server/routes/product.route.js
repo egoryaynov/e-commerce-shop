@@ -9,7 +9,8 @@ const {
     getProducts,
     getProductById,
     uploadImages,
-    createComment
+    createComment,
+    editProduct
 } = require('../controllers/product.controller')
 
 router.get('/', getProducts)
@@ -19,6 +20,7 @@ router.post('/comment', protect, createComment)
 // ADMIN ENDPOINTS
 router.post('/', protect, protectAdmin, createProduct)
 router.delete('/', protect, protectAdmin, deleteProduct)
+router.put('/', protect, protectAdmin, editProduct)
 router.post('/image', protect, protectAdmin, upload.array('file', 5), uploadImages)
 
 module.exports = router
