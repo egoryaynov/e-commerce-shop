@@ -125,7 +125,7 @@ exports.getProductById = async (req, res, next) => {
 }
 
 exports.uploadImages = async (req, res, next) => {
-    const {productId} = req.body
+    const {productId, images} = req.body
 
     try {
         const product = await Product.findById(productId)
@@ -133,11 +133,10 @@ exports.uploadImages = async (req, res, next) => {
             product.images = []
         }
 
-        req.images.forEach(file => {
-            product.images.push(process.env.BASE_UPLOAD_URL + file.filename)
+        images.forEach(file => {
+            product.images.push(process.env.BASE_UPLOAD_URL + file)
         })
-        console.log(product.images)
-
+        
         await product.save(async err => {
             if (err) {
                 next(new ErrorResponse(err.message, 500))
