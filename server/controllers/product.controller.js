@@ -59,7 +59,7 @@ exports.editProduct = async (req, res, next) => {
     colors = colors.map(color => {
         return {hex: color.hex, name: color.name}
     })
-    
+
     try {
         await Product.findByIdAndUpdate(productId, {
             name,
@@ -133,9 +133,10 @@ exports.uploadImages = async (req, res, next) => {
             product.images = []
         }
 
-        req.files.forEach(file => {
+        req.images.forEach(file => {
             product.images.push(process.env.BASE_UPLOAD_URL + file.filename)
         })
+        console.log(product.images)
 
         await product.save(async err => {
             if (err) {

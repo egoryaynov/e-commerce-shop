@@ -8,7 +8,8 @@ import DeleteProductDialog from "./DeleteProductDialog";
 
 const useStyles = makeStyles((theme) => ({
     card: {
-        margin: theme.spacing(2),
+        width: '300px',
+        height: '300px',
         cursor: 'pointer',
         border: '1px solid transparent',
         '&:hover': {
@@ -22,7 +23,7 @@ const ProductItem = ({product, deleteProduct}) => {
 
     const [redirectId, setRedirectId] = useState(null)
     const [mustShowDialog, setMustShowDialog] = useState(false)
-    
+
     const redirectToProduct = (id) => {
         setRedirectId(id)
     }
@@ -40,7 +41,7 @@ const ProductItem = ({product, deleteProduct}) => {
     }
 
     if (redirectId) return <Redirect to={`/product/${redirectId}`}/>
-
+    console.log(product)
     return (
         <Card className={classes.card}>
             <CardContent onClick={() => redirectToProduct(product._id)}>
@@ -54,9 +55,7 @@ const ProductItem = ({product, deleteProduct}) => {
                     adjective
                 </Typography>
                 <Typography variant="body2" component="p">
-                    well meaning and kindly.
-                    <br/>
-                    {'"a benevolent smile"'}
+                    {product.description}
                 </Typography>
             </CardContent>
             <CardActions>

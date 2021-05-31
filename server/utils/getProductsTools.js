@@ -69,6 +69,7 @@ module.exports.getAggregateQuery = async function (req) {
                 category: 1,
                 colors: 1,
                 discount: 1,
+                description: 1,
                 image: {
                     $first: "$images"
                 }

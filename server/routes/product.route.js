@@ -1,6 +1,6 @@
 const {protect, protectAdmin} = require("../middleware/auth.middleware");
 const {Router} = require('express')
-const {upload} = require('../utils/imagesTools')
+const {upload, resizeImages} = require('../utils/imagesTools')
 const router = Router()
 
 const {
@@ -21,6 +21,6 @@ router.post('/comment', protect, createComment)
 router.post('/', protect, protectAdmin, createProduct)
 router.delete('/', protect, protectAdmin, deleteProduct)
 router.put('/', protect, protectAdmin, editProduct)
-router.post('/image', protect, protectAdmin, upload.array('file', 5), uploadImages)
+router.post('/image', protect, protectAdmin, upload.array('file', 5), resizeImages, uploadImages)
 
 module.exports = router
