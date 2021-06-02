@@ -52,7 +52,6 @@ const ProductItem = ({product, deleteProduct}) => {
     }
 
     if (redirectId) return <Redirect to={`/product/${redirectId}`}/>
-    console.log(product)
     return (
         <Card className={classes.card} onClick={() => redirectToProduct(product._id)}>
             <CardHeader
@@ -71,7 +70,7 @@ const ProductItem = ({product, deleteProduct}) => {
             <CardMedia
                 className={classes.media}
                 image={product.images}
-                title="Paella dish"
+                title="Product image"
             />}
 
             <CardContent>

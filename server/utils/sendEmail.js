@@ -9,6 +9,18 @@ const sendEmail = (options) => {
         }
     })
 
+    // todo set up own mail server ↓ example (try hmailserver maybe)
+    // const transporter = nodemailer.createTransport({
+    //     pool: true,
+    //     host: "smtp.example.com",
+    //     port: 465,
+    //     secure: true, // use TLS
+    //     auth: {
+    //         user: "username",
+    //         pass: "password"
+    //     }
+    // })
+
     const mailOptions = {
         from: process.env.EMAIL_FROM,
         to: options.to,
