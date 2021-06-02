@@ -6,8 +6,11 @@ export class CategoryApi {
         this.method = 'GET'
     }
 
-    deleteCategory = () => {
+    deleteCategory = (categoryId) => {
         this.url = `${API.baseUrl}/category`
         this.method = 'DELETE'
+        this.body = {
+            categoryId
+        }
     }
 }

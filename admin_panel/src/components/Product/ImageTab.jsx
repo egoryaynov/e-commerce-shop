@@ -8,7 +8,7 @@ import {ProductsApi} from "../../api/ProductsApi";
 import {Alert} from "@material-ui/lab";
 
 const ImageTab = ({images, setProduct, productId}) => {
-    const {request, isLoading} = useHttp()
+    const {request, error, isLoading} = useHttp()
     const {token} = useContext(TokenContext)
 
     const inputRef = useRef()
@@ -38,7 +38,9 @@ const ImageTab = ({images, setProduct, productId}) => {
                     return (<img alt={'image' + idx} src={imageUrl}/>)
                 })
             }
-            {images.length >= 5 && <Alert severity="warning">Max images count is 5</Alert>}
+            {(images.length >= 5 || error) && <Alert severity="warning">{error || 'Max images count is 5'}</Alert>}
+
+            <br/>
 
             <Button
                 variant="contained"
