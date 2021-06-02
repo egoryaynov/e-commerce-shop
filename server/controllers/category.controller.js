@@ -1,4 +1,5 @@
 const Category = require('../models/Category')
+const Product = require('../models/Product')
 const ErrorResponse = require('../utils/ErrorResponse')
 
 exports.createCategory = async (req, res, next) => {
@@ -45,10 +46,17 @@ exports.deleteCategory = async (req, res, next) => {
     const {categoryId} = req.body
 
     try {
-        await Category.findByIdAndDelete(categoryId, {}, async (err, doc) => {
+        await Category.findById(categoryId, async (err, doc) => {
             if (err) {
                 return next(new ErrorResponse('Error on delete category', 500))
             } else {
+                await Product.deleteMany({category: categoryId}, (err, doc) => {
+                    if (err) {
+                        return next(new ErrorResponse('error on delete product with same category id'))
+                    }
+                })
+
+                await doc.delete()
                 res.status(200).json({
                     success: true,
                     categories: await Category.find({})
