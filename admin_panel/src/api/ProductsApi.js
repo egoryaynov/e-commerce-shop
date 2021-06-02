@@ -1,8 +1,8 @@
 import {API} from "./API";
 
 export class ProductsApi {
-    getProducts = (page) => {
-        this.url = `${API.baseUrl}/product?page=${page}`
+    getProducts = (page, limit = 6) => {
+        this.url = `${API.baseUrl}/product?page=${page}&limit=${limit}`
         this.method = 'GET'
     }
 

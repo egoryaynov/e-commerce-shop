@@ -35,7 +35,7 @@ const ImageTab = ({images, setProduct, productId}) => {
             {images.length === 0
                 ? <Typography>No images upload yet</Typography>
                 : images.map((imageUrl, idx) => {
-                    return (<img alt={'image' + idx} src={'http://' + imageUrl}/>)
+                    return (<img alt={'image' + idx} src={imageUrl}/>)
                 })
             }
             {images.length >= 5 && <Alert severity="warning">Max images count is 5</Alert>}

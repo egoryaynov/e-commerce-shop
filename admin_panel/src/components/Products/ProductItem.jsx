@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Card, CardActions, CardContent} from "@material-ui/core";
+import {Card, CardActions, CardContent, CardHeader, CardMedia, Grid} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
@@ -8,13 +8,24 @@ import DeleteProductDialog from "./DeleteProductDialog";
 
 const useStyles = makeStyles((theme) => ({
     card: {
-        width: '300px',
-        height: '300px',
         cursor: 'pointer',
         border: '1px solid transparent',
         '&:hover': {
             border: '1px solid blue',
         }
+    },
+    media: {
+        height: 0,
+        paddingTop: '56.25%', // 16:9
+    },
+    colorCircle: {
+        borderRadius: '50%',
+        width: '30px',
+        height: '30px'
+    },
+    colorsContainer: {
+        paddingLeft: theme.spacing(2),
+        paddingBottom: theme.spacing(2),
     }
 }));
 
@@ -43,17 +54,27 @@ const ProductItem = ({product, deleteProduct}) => {
     if (redirectId) return <Redirect to={`/product/${redirectId}`}/>
     console.log(product)
     return (
-        <Card className={classes.card}>
-            <CardContent onClick={() => redirectToProduct(product._id)}>
-                <Typography color="textSecondary" gutterBottom>
-                    {product.name}
-                </Typography>
-                <Typography variant="h5" component="h2">
+        <Card className={classes.card} onClick={() => redirectToProduct(product._id)}>
+            <CardHeader
+                title={product.name}
+                subheader={product.category[0].name}
+            />
+            <Grid className={classes.colorsContainer} spacing={1} container>
+                {product.colors.map(color => {
+                    return <Grid className={classes.colorsItem} item>
+                        <div className={classes.colorCircle} style={{backgroundColor: color.hex}}/>
+                    </Grid>
+                })}
+            </Grid>
 
-                </Typography>
-                <Typography color="textSecondary">
-                    adjective
-                </Typography>
+            {product.images &&
+            <CardMedia
+                className={classes.media}
+                image={product.images}
+                title="Paella dish"
+            />}
+
+            <CardContent>
                 <Typography variant="body2" component="p">
                     {product.description}
                 </Typography>

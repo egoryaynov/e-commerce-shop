@@ -161,9 +161,6 @@ export default function Template(props) {
                 <Container maxWidth="lg" className={classes.container}>
                     {props.children}
                 </Container>
-                <Box pt={4}>
-                    <Copyright/>
-                </Box>
             </main>
         </div>
     );

@@ -84,11 +84,11 @@ const Products = () => {
                     {!isLoading && products.length === 0 &&
                     <Typography variant='body1' className={classes.addButton}>Products doesn't exist yet</Typography>}
 
-                    <Grid container>
+                    <Grid container spacing={5}>
                         {!isLoading && products.length > 0 &&
                         products.map(product => {
                             return (
-                                <Grid item xs={6} md={4} lg={3}>
+                                <Grid item xs={12} md={6} lg={6}>
                                     <ProductItem key={product._id} product={product} deleteProduct={deleteProduct}/>
                                 </Grid>
                             )
