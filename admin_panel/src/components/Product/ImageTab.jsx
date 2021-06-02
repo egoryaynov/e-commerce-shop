@@ -61,6 +61,6 @@ const ImageTab = ({images, setProduct, productId}) => {
             </Button>
         </>
     )
-}
+};
 
 export default ImageTab

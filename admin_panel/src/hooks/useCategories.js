@@ -15,5 +15,5 @@ export const useCategories = () => {
         })
     }, [request])
 
-    return {isLoading, categories}
+    return {isLoading, setCategories, categories}
 }

@@ -5,6 +5,8 @@ const router = Router()
 const {createCategory, getCategories, deleteCategory} = require('../controllers/category.controller')
 
 router.get('/', getCategories)
+
+// ADMIN ROUTES
 router.post('/', protect, protectAdmin, createCategory)
 router.delete('/', protect, protectAdmin, deleteCategory)
 

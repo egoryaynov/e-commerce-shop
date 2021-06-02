@@ -6,11 +6,25 @@ export class CategoryApi {
         this.method = 'GET'
     }
 
-    deleteCategory = (categoryId) => {
+    deleteCategory = (categoryId, token) => {
         this.url = `${API.baseUrl}/category`
         this.method = 'DELETE'
+        this.headers = {
+            Authorization: `Bearer ${token}`
+        }
         this.body = {
             categoryId
+        }
+    }
+
+    createCategory = (name, token) => {
+        this.url = `${API.baseUrl}/category`
+        this.method = 'POST'
+        this.headers = {
+            Authorization: `Bearer ${token}`
+        }
+        this.body = {
+            name
         }
     }
 }
