@@ -35,8 +35,9 @@ export const useAuth = () => {
                 options.validateToken(data.token)
 
                 try {
-                    await request(options)
+                    const data = await request(options)
 
+                    login(data.token)
                     setIsAuth(true)
                 } catch (e) {
                     logout()
