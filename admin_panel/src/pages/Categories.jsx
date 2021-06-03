@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import Template from "../components/Template";
 import {useCategories} from "../hooks/useCategories";
 import {
-    CircularProgress,
+    CircularProgress, ClickAwayListener,
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
@@ -54,7 +54,7 @@ const Categories = () => {
         const [mustDialogOpen, setMustDialogOpen] = useState(false)
         const [mustRemoveCategory, setMustRemoveCategory] = useState(null)
         const [newCategoryName, setNewCategoryName] = useState('')
-        const [showAddNewCategoryInput, setShowAddNewCategoryInput] = useState(false)
+        const [showAddNewCategoryForm, setShowAddNewCategoryForm] = useState(false)
 
         const deleteCategory = async ({_id: categoryId}) => {
             const options = new CategoryApi()
@@ -80,7 +80,7 @@ const Categories = () => {
                 })
             }
 
-            setShowAddNewCategoryInput(false)
+            setShowAddNewCategoryForm(false)
         }
 
         const removeClickHandler = (category) => {
@@ -101,7 +101,7 @@ const Categories = () => {
 
         const addClickHandler = () => {
             setNewCategoryName('')
-            setShowAddNewCategoryInput(!showAddNewCategoryInput)
+            setShowAddNewCategoryForm(!showAddNewCategoryForm)
         }
 
         return (
@@ -112,22 +112,25 @@ const Categories = () => {
                             Add new category
                         </Button>
 
-                        {categories.length === 0 && !showAddNewCategoryInput &&
+                        {categories.length === 0 && !showAddNewCategoryForm &&
                         <Typography style={{paddingTop: '10px'}} variant='body1'>Categories doesn't exist yet</Typography>}
 
-                        {showAddNewCategoryInput &&
-                        <form style={{paddingTop: '10px'}} noValidate autoComplete="off" onSubmit={addCategory}>
-                            <TextField id="outlined-basic" label="Category name" variant="outlined"
-                                       value={newCategoryName}
-                                       onChange={(event) => setNewCategoryName(event.target.value)}/>
-                            <Button style={{width: '150px', height: '100%', margin: '7px'}} color='secondary'
-                                    variant='contained'
-                                    type='submit' disabled={changingCategory}>Submit</Button>
-                        </form>
+                        {showAddNewCategoryForm &&
+                        <ClickAwayListener onClickAway={addClickHandler}>
+                            <form style={{paddingTop: '10px'}} noValidate autoComplete="off" onSubmit={addCategory}>
+                                <TextField id="outlined-basic" label="Category name" variant="outlined"
+                                           value={newCategoryName}
+                                           onChange={(event) => setNewCategoryName(event.target.value)}/>
+                                <Button style={{width: '150px', height: '100%', margin: '7px'}} color='secondary'
+                                        variant='contained'
+                                        type='submit' disabled={changingCategory}>Submit</Button>
+                            </form>
+                        </ClickAwayListener>}
+
+                        {categories.length > 0 &&
+                        <CategoriesTable categories={categories} removeClickHandler={removeClickHandler}
+                                         setCategories={setCategories}/>
                         }
-
-
-                        <CategoriesTable categories={categories} removeClickHandler={removeClickHandler}/>
                     </>}
                 <DeleteCategoryConfirm open={mustDialogOpen} dialogCloseHandler={dialogCloseHandler}
                                        deleteHandler={removeCategoryHandler}/>

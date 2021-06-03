@@ -27,4 +27,16 @@ export class CategoryApi {
             name
         }
     }
+
+    changeCategory = (categoryId, name, token) => {
+        this.url = `${API.baseUrl}/category`
+        this.method = 'PUT'
+        this.headers = {
+            Authorization: `Bearer ${token}`
+        }
+        this.body = {
+            categoryId,
+            newCategoryName: name
+        }
+    }
 }
