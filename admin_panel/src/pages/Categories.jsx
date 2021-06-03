@@ -6,19 +6,15 @@ import {
     Dialog, DialogActions,
     DialogContent,
     DialogContentText,
-    TableCell,
-    TableContainer,
+    TextField,
 } from "@material-ui/core";
-import Table from "@material-ui/core/Table";
-import TableRow from "@material-ui/core/TableRow";
-import TableBody from "@material-ui/core/TableBody";
-import ClearIcon from "@material-ui/icons/Clear";
 import {CategoryApi} from "../api/CategoryApi";
 import {useHttp} from "../hooks/useHttp";
 import {TokenContext} from "../context/TokenContext";
 import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography";
+import CategoriesTable from "../components/Categories/CategoriesTable";
 
 const DeleteCategoryConfirm = ({open, deleteHandler, dialogCloseHandler: closeHandler}) => {
     return (
@@ -50,72 +46,94 @@ const DeleteCategoryConfirm = ({open, deleteHandler, dialogCloseHandler: closeHa
 
 
 const Categories = () => {
-    const {token} = useContext(TokenContext)
+        const {token} = useContext(TokenContext)
 
-    const {request, isLoading: deletingCategory, error} = useHttp()
-    const {categories, setCategories, isLoading: isCategoriesLoading} = useCategories()
+        const {request, isLoading: changingCategory, error} = useHttp()
+        const {categories, setCategories, isLoading: isCategoriesLoading} = useCategories()
 
-    const [mustDialogOpen, setMustDialogOpen] = useState(false);
-    const [mustRemoveCategory, setMustRemoveCategory] = useState(null);
+        const [mustDialogOpen, setMustDialogOpen] = useState(false)
+        const [mustRemoveCategory, setMustRemoveCategory] = useState(null)
+        const [newCategoryName, setNewCategoryName] = useState('')
+        const [showAddNewCategoryInput, setShowAddNewCategoryInput] = useState(false)
 
-    const deleteCategory = async ({_id: categoryId}) => {
-        const options = new CategoryApi()
-        options.deleteCategory(categoryId, token)
+        const deleteCategory = async ({_id: categoryId}) => {
+            const options = new CategoryApi()
+            options.deleteCategory(categoryId, token)
 
-        await request(options).then(data => {
-            if (data.success) {
-                setCategories(data.categories)
-            }
-        })
-    }
-
-    const removeClickHandler = (category) => {
-        setMustRemoveCategory(category)
-        setMustDialogOpen(true)
-    }
-
-    const removeCategoryHandler = async () => {
-        if (mustRemoveCategory) {
-            await deleteCategory(mustRemoveCategory)
+            await request(options).then(data => {
+                if (data.success) {
+                    setCategories(data.categories)
+                }
+            })
         }
-        setMustDialogOpen(false)
+        const addCategory = async (event) => {
+            event.preventDefault()
+
+            if (newCategoryName.trim().length > 0) {
+                const options = new CategoryApi()
+                options.createCategory(newCategoryName, token)
+
+                await request(options).then(data => {
+                    if (data.success) {
+                        setCategories(data.categories)
+                    }
+                })
+            }
+
+            setShowAddNewCategoryInput(false)
+        }
+
+        const removeClickHandler = (category) => {
+            setMustRemoveCategory(category)
+            setMustDialogOpen(true)
+        }
+
+        const removeCategoryHandler = async () => {
+            if (mustRemoveCategory) {
+                await deleteCategory(mustRemoveCategory)
+            }
+            setMustDialogOpen(false)
+        }
+
+        const dialogCloseHandler = () => {
+            setMustDialogOpen(false)
+        }
+
+        const addClickHandler = () => {
+            setNewCategoryName('')
+            setShowAddNewCategoryInput(!showAddNewCategoryInput)
+        }
+
+        return (
+            <Template title='Categories'>
+                {isCategoriesLoading ? <CircularProgress/>
+                    : <>
+                        <Button variant="contained" color="primary" startIcon={<AddIcon/>} onClick={addClickHandler}>
+                            Add new category
+                        </Button>
+
+                        {categories.length === 0 && !showAddNewCategoryInput &&
+                        <Typography style={{paddingTop: '10px'}} variant='body1'>Categories doesn't exist yet</Typography>}
+
+                        {showAddNewCategoryInput &&
+                        <form style={{paddingTop: '10px'}} noValidate autoComplete="off" onSubmit={addCategory}>
+                            <TextField id="outlined-basic" label="Category name" variant="outlined"
+                                       value={newCategoryName}
+                                       onChange={(event) => setNewCategoryName(event.target.value)}/>
+                            <Button style={{width: '150px', height: '100%', margin: '7px'}} color='secondary'
+                                    variant='contained'
+                                    type='submit' disabled={changingCategory}>Submit</Button>
+                        </form>
+                        }
+
+
+                        <CategoriesTable categories={categories} removeClickHandler={removeClickHandler}/>
+                    </>}
+                <DeleteCategoryConfirm open={mustDialogOpen} dialogCloseHandler={dialogCloseHandler}
+                                       deleteHandler={removeCategoryHandler}/>
+            </Template>
+        );
     }
-
-    const dialogCloseHandler = () => {
-        setMustDialogOpen(false)
-    }
-
-    return (
-        <Template title='Categories'>
-            {isCategoriesLoading ? <CircularProgress/>
-                : <>
-                    <Button variant="contained" color="primary" startIcon={<AddIcon/>}>
-                        Add new category
-                    </Button>
-
-                    {categories.length === 0 &&
-                    <Typography variant='body1'>Categories doesn't exist yet</Typography>}
-
-                    <TableContainer>
-                        <Table size="small" aria-label="a dense table">
-                            <TableBody>
-                                {categories.map((category) => (
-                                    <TableRow key={category.name}>
-                                        <TableCell>{category.name}</TableCell>
-                                        <TableCell style={{cursor: 'pointer'}}
-                                                   onClick={() => removeClickHandler(category)}>
-                                            <ClearIcon/>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </>}
-            <DeleteCategoryConfirm open={mustDialogOpen} dialogCloseHandler={dialogCloseHandler}
-                                   deleteHandler={removeCategoryHandler}/>
-        </Template>
-    );
-};
+;
 
 export default Categories;
