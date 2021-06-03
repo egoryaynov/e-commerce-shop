@@ -67,3 +67,22 @@ exports.deleteCategory = async (req, res, next) => {
         next(error)
     }
 }
+
+exports.changeCategory = async (req, res, next) => {
+    const {categoryId, newCategoryName} = req.body
+
+    try {
+        await Category.findByIdAndUpdate(categoryId, {"name": newCategoryName}, async (err) => {
+            if (err) {
+                return next(new ErrorResponse('Error on changing category name', 500))
+            } else {
+                res.status(200).json({
+                    success: true,
+                    categories: await Category.find({})
+                })
+            }
+        })
+    } catch (error) {
+        next(error)
+    }
+}
