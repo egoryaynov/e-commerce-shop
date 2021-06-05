@@ -1,0 +1,10 @@
+{
+  "name": "delivery-service",
+  "version": "1.0.0",
+  "description": "delivery service. simulate delivery orders and send message by websocket",
+  "main": "app.js",
+  "license": "MIT",
+  "dependencies": {
+    "socket.io-client": "^4.1.2"
+  }
+}

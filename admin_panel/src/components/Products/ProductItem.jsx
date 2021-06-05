@@ -53,31 +53,33 @@ const ProductItem = ({product, deleteProduct}) => {
 
     if (redirectId) return <Redirect to={`/product/${redirectId}`}/>
     return (
-        <Card className={classes.card} onClick={() => redirectToProduct(product._id)}>
-            <CardHeader
-                title={product.name}
-                subheader={product.category[0].name}
-            />
-            <Grid className={classes.colorsContainer} spacing={1} container>
-                {product.colors.map(color => {
-                    return <Grid className={classes.colorsItem} item>
-                        <div className={classes.colorCircle} style={{backgroundColor: color.hex}}/>
-                    </Grid>
-                })}
-            </Grid>
+        <Card className={classes.card}>
+            <div onClick={() => redirectToProduct(product._id)}>
+                <CardHeader
+                    title={product.name}
+                    subheader={product.category[0].name}
+                />
+                <Grid className={classes.colorsContainer} spacing={1} container>
+                    {product.colors.map(color => {
+                        return <Grid className={classes.colorsItem} item>
+                            <div className={classes.colorCircle} style={{backgroundColor: color.hex}}/>
+                        </Grid>
+                    })}
+                </Grid>
 
-            {product.images &&
-            <CardMedia
-                className={classes.media}
-                image={product.images}
-                title="Product image"
-            />}
+                {product.images &&
+                <CardMedia
+                    className={classes.media}
+                    image={product.images}
+                    title="Product image"
+                />}
 
-            <CardContent>
-                <Typography variant="body2" component="p">
-                    {product.description}
-                </Typography>
-            </CardContent>
+                <CardContent>
+                    <Typography variant="body2" component="p">
+                        {product.description}
+                    </Typography>
+                </CardContent>
+            </div>
             <CardActions>
                 <Button variant="text" color="secondary" size="small" onClick={handleDialogOpen}>Delete</Button>
             </CardActions>

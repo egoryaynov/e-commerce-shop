@@ -21,12 +21,12 @@ const UserSchema = new Schema({
         unique: true,
         match: [
             /^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$/,
-            'Please provide correct password'
+            'Please provide correct email'
         ]
     },
     password: {
         type: String,
-        required: [true, 'Please add a password'],
+        required: [true, 'Please provide a password'],
         minLength: 6,
         select: false
     },
@@ -49,7 +49,7 @@ UserSchema.pre('save', async function (next) {
 UserSchema.methods.matchPassword = async function (password) {
     return await bcrypt.compare(password, this.password)
 }
-UserSchema.methods.getSignedToken = async function (password) {
+UserSchema.methods.getSignedToken = async function () {
     return jwt.sign({userId: this._id}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_EXPIRE})
 }
 

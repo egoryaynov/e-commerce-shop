@@ -37,7 +37,9 @@ exports.deleteProduct = async (req, res, next) => {
                 next(new ErrorResponse('Product not found', 400))
             } else {
                 doc.images.forEach(image => {
-                    fs.unlinkSync(path.join(__dirname, '/../uploads/images/', image.split('/')[3]))
+                    const splitedImage = image.split('/')
+                    
+                    fs.unlinkSync(path.join(__dirname, '/../uploads/images/', splitedImage[splitedImage.length - 1]))
                 })
 
                 await doc.remove()
@@ -136,7 +138,7 @@ exports.uploadImages = async (req, res, next) => {
         images.forEach(file => {
             product.images.push(process.env.BASE_UPLOAD_URL + file)
         })
-        
+
         await product.save(async err => {
             if (err) {
                 next(new ErrorResponse(err.message, 500))
