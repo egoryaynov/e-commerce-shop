@@ -4,7 +4,7 @@ const app = express()
 const connectDB = require('./config/db')
 const errorHandler = require('./middleware/error.middleware')
 
-connectDB()
+// connectDB()
 
 app.use(express.json())
 
@@ -12,14 +12,14 @@ app.use(express.json())
 app.use('/uploads/images', express.static(__dirname + '/uploads/images'))
 
 // API ENDPOINTS
-const getUrl = (endpoint) => {
+const getEndpointUrl = (endpoint) => {
     return `/api/v1/${endpoint}`
 }
 
-app.use(getUrl('auth'), require('./routes/auth.route'))
-app.use(getUrl('address'), require('./routes/address.route'))
-app.use(getUrl('category'), require('./routes/category.route'))
-app.use(getUrl('product'), require('./routes/product.route'))
+app.use(getEndpointUrl('auth'), require('./routes/auth.route'))
+app.use(getEndpointUrl('address'), require('./routes/address.route'))
+app.use(getEndpointUrl('category'), require('./routes/category.route'))
+app.use(getEndpointUrl('product'), require('./routes/product.route'))
 
 // error handler
 app.use(errorHandler)

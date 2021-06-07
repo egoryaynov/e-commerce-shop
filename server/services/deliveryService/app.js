@@ -1,15 +1,24 @@
-const io = require('socket.io-client')
-// const express = require('express')
-// const app = express()
-//
-// app.get('/', () => {
-//     console.log('aaaaaaa')
-// })
+require('dotenv').config({path: '../../config.env'})
+const express = require('express')
+const app = express()
+
+const io = require("socket.io-client")
+const socket = io({
+    autoConnect: true
+});
 
 module.exports.start = async () => {
-    const socket = io()
+    // 1. Get all orders from collection in MongoDB
 
-    socket.on('connect', () => {
-        console.log('[DeliveryService]: connection established')
-    })
+
+    // 2. Connect to websocket on server
+
+
+    // 3. Write handlers for events
+
+
+    // 4. Error handling
+
+
+    // 5. Implement stop()
 }
