@@ -2,7 +2,7 @@
   "name": "server",
   "version": "0.1.0",
   "scripts": {
-    "startServices": "node services/index.js",
+    "startServices": "nodemon services/index.js",
     "start": "concurrently \"yarn startServices\" \"nodemon app.js\""
   },
   "dependencies": {

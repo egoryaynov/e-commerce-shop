@@ -12,18 +12,22 @@ app.use(express.json())
 app.use('/uploads/images', express.static(__dirname + '/uploads/images'))
 
 // API ENDPOINTS
-app.use('/api/auth', require('./routes/auth.route'))
-app.use('/api/address', require('./routes/address.route'))
-app.use('/api/category', require('./routes/category.route'))
-app.use('/api/product', require('./routes/product.route'))
+const getUrl = (endpoint) => {
+    return `/api/v1/${endpoint}`
+}
+
+app.use(getUrl('auth'), require('./routes/auth.route'))
+app.use(getUrl('address'), require('./routes/address.route'))
+app.use(getUrl('category'), require('./routes/category.route'))
+app.use(getUrl('product'), require('./routes/product.route'))
 
 // error handler
 app.use(errorHandler)
 
 const PORT = process.env.PORT || 5000
-const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+const server = app.listen(PORT, () => console.log(`[Server]: Server running on port ${PORT}`))
 
 process.on('unhandledRejection', (err, promise) => {
-    console.log(`Logged error: ${err}`)
+    console.log(`[Server]: Logged error: ${err}`)
     server.close(() => process.exit(1))
 })

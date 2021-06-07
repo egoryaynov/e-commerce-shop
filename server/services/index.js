@@ -3,5 +3,5 @@ const deliveryService = require('./deliveryService/app')
 Promise.all([
     deliveryService.start()
 ]).then(r => {
-    console.log('[Server]: All services started')
+    console.log('[Services]: All services started')
 })
