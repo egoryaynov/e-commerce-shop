@@ -6,7 +6,7 @@ const {createCategory, getCategories, deleteCategory, changeCategory} = require(
 
 router.get('/', getCategories)
 
-// ADMIN ROUTES
+// ADMIN ENDPOINTS
 router.post('/', protect, protectAdmin, createCategory)
 router.put('/', protect, protectAdmin, changeCategory)
 router.delete('/', protect, protectAdmin, deleteCategory)

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "startServices": "nodemon services/index.js",
-    "start": "concurrently --raw \"nodemon app.js\" \"yarn startServices\""
+    "start": "concurrently --raw --kill-others \"nodemon app.js\" \"yarn startServices\""
   },
   "dependencies": {
     "@mongoosejs/double": "^0.2.0",

@@ -4,30 +4,32 @@ const app = express()
 const connectDB = require('./config/db')
 const errorHandler = require('./middleware/error.middleware')
 
-// connectDB()
+connectDB().then(() => {
+    app.use(express.json())
 
-app.use(express.json())
+    // STATIC MIDDLEWARE
+    app.use('/uploads/images', express.static(__dirname + '/uploads/images'))
 
-// STATIC MIDDLEWARE
-app.use('/uploads/images', express.static(__dirname + '/uploads/images'))
+    // API ENDPOINTS
+    const getEndpointUrl = (endpoint) => {
+        return `/api/v1/${endpoint}`
+    }
 
-// API ENDPOINTS
-const getEndpointUrl = (endpoint) => {
-    return `/api/v1/${endpoint}`
-}
+    app.use(getEndpointUrl('auth'), require('./routes/auth.route'))
+    app.use(getEndpointUrl('address'), require('./routes/address.route'))
+    app.use(getEndpointUrl('category'), require('./routes/category.route'))
+    app.use(getEndpointUrl('product'), require('./routes/product.route'))
 
-app.use(getEndpointUrl('auth'), require('./routes/auth.route'))
-app.use(getEndpointUrl('address'), require('./routes/address.route'))
-app.use(getEndpointUrl('category'), require('./routes/category.route'))
-app.use(getEndpointUrl('product'), require('./routes/product.route'))
+    app.use(getEndpointUrl('services'), require('./routes/services.route'))
 
-// error handler
-app.use(errorHandler)
+    // error handler
+    app.use(errorHandler)
 
-const PORT = process.env.PORT || 5000
-const server = app.listen(PORT, () => console.log(`[Server]: Server running on port ${PORT}`))
+    const PORT = process.env.PORT || 5000
+    const server = app.listen(PORT, () => console.log(`[Server]: Server running on port ${PORT}`))
 
-process.on('unhandledRejection', (err, promise) => {
-    console.log(`[Server]: Logged error: ${err}`)
-    server.close(() => process.exit(1))
+    process.on('unhandledRejection', (err, promise) => {
+        console.log(`[Server]: Logged error: ${err}`)
+        server.close(() => process.exit(1))
+    })
 })
