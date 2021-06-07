@@ -1,4 +1,15 @@
 const io = require('socket.io-client')
-const socket = io()
+// const express = require('express')
+// const app = express()
+//
+// app.get('/', () => {
+//     console.log('aaaaaaa')
+// })
 
-console.log(socket)
+module.exports.start = async () => {
+    const socket = io()
+
+    socket.on('connect', () => {
+        console.log('[DeliveryService]: connection established')
+    })
+}

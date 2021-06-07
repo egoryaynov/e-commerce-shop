@@ -2,7 +2,8 @@
   "name": "server",
   "version": "0.1.0",
   "scripts": {
-    "start": "nodemon app.js"
+    "startServices": "node services/index.js",
+    "start": "concurrently \"yarn startServices\" \"nodemon app.js\""
   },
   "dependencies": {
     "@mongoosejs/double": "^0.2.0",
@@ -16,7 +17,8 @@
     "nanoid": "^3.1.22",
     "nodemailer": "^6.5.0",
     "sharp": "^0.28.3",
-    "socket.io": "^4.1.2"
+    "socket.io": "^4.1.2",
+    "socket.io-client": "^4.1.2"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
