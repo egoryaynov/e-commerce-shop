@@ -22,6 +22,7 @@ const ProductSchema = new Schema({
     comments: [CommentSchema],
     description: {type: String, required: [true, 'Please provide product description']},
     category: {type: Types.ObjectId, ref: 'Category'},
+    buyCount: {type: Number, default: 0},
     images: [String]
 }, {versionKey: false})
 
