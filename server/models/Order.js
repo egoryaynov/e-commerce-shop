@@ -8,7 +8,7 @@ const OrderSchema = new Schema({
 }, {versionKey: false})
 
 OrderSchema.pre('save', async (next) => {
-    if (!this.isModified('totalCost')) {
+    if (!this.isModified('products')) {
         next();
     }
 

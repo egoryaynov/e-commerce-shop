@@ -31,6 +31,7 @@ const UserSchema = new Schema({
         select: false
     },
     addresses: [{type: Schema.Types.ObjectId, ref: 'Address'}],
+    orders: [{type: Schema.Types.ObjectId, ref: 'Order'}],
     resetPasswordToken: String,
     resetPasswordExpire: Date,
     role: {type: String, default: 'User', select: false}
