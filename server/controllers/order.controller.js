@@ -37,10 +37,17 @@ exports.payOrder = async (req, res, next) => {
             // 3. установить статус "оплачено"
             // 4. у всех продуктов buyCount++
             // 5. отправить заказ доставке (подумать в каком виде)
+
+            // return order
         }
 
         // imitation async request on payment service
-        await setTimeout(createOrder, 5000)
+        await setTimeout(async () => {
+            res.status(201).json({
+                success: true,
+                order: await createOrder()
+            })
+        }, 5000)
     } catch (error) {
         next(error)
     }

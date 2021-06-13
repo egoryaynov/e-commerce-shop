@@ -12,7 +12,7 @@ const socket = io(process.env.DELIVERY_WEBSOCKET_URL, {
 })
 
 socket.on('connect', function () {
-    socket.on('clientEvent', function (data) {
+    socket.on('hello', function (data) {
         console.log('message from the server:', data);
         socket.emit('serverEvent', "thanks server! for sending '" + data + "'");
     });

@@ -4,9 +4,9 @@ const router = Router()
 
 const {payOrder} = require('../controllers/order.controller')
 
-router.get('/payment', payOrder)
+router.get('/payment', protect, payOrder)
 
 // ADMIN ENDPOINTS
-//router.post('/', protect, protectAdmin, createProduct)
+// router.post('/', protect, protectAdmin, createProduct)
 
 module.exports = router
