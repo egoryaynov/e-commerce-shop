@@ -1,5 +1,8 @@
-const ErrorResponse = require("../utils/ErrorResponse");
+const ErrorResponse = require("../utils/ErrorResponse")
 const Order = require('../models/Order')
+const {Product} = require("../models/Product")
+const http = require('http')
+const axios = require("axios");
 
 exports.payOrder = async (req, res, next) => {
     // todo realize PayPal sandbox payment
@@ -13,12 +16,22 @@ exports.payOrder = async (req, res, next) => {
     const {address, products} = req.body
     const user = req.user
 
-    if (!address._id || products.length === 0) {
+    if (!address || !products || products.length === 0) {
         return next(new ErrorResponse('Incorrect values of order', 400))
     }
 
     try {
         const createOrder = async () => {
+            const productIDs = products.map(product => product._id)
+
+            const order = new Order({
+                status: 'paid',
+                products: productIDs
+            })
+
+            user.orders.push(order._id)
+
+            // отправить заказ доставке (подумать в каком виде)
             /*
              DEEP POPULATE
                           BlogModel
@@ -30,15 +43,25 @@ exports.payOrder = async (req, res, next) => {
                             }
                           })
              */
+            await axios
+                .post(`http://127.0.0.1:${process.env.DELIVERY_PORT}`, {
+                    order: order
+                })
+                .then(res => {
+                    console.log(`statusCode: ${res.statusCode}`)
+                    console.log(res)
+                })
+                .catch(error => {
+                    console.error(error)
+                })
 
+            // SAVING ORDER
+            await Product.updateMany({_id: {$in: productIDs}}, {$inc: {buyCount: 1}})
 
-            // 1. Записать новый заказ в user.orders
-            // 2. поместить в новый заказ id's продуктов
-            // 3. установить статус "оплачено"
-            // 4. у всех продуктов buyCount++
-            // 5. отправить заказ доставке (подумать в каком виде)
+            await order.save()
+            await user.save()
 
-            // return order
+            return order
         }
 
         // imitation async request on payment service

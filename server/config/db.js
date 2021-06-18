@@ -10,7 +10,7 @@ const connectDB = async () => {
         if (err) {
             throw new Error('Error on connect DB')
         } else {
-            console.log('MongoDB connected')
+            console.log('[Server]: MongoDB connected')
         }
     })
 }

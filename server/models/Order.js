@@ -4,6 +4,7 @@ const OrderSchema = new Schema({
     status: {type: String, required: [true, 'Please inform status of Order']},
     products: [{type: Types.ObjectId, ref: 'Product'}],
     address: {type: Types.ObjectId, ref: 'Address'},
+    finished: {type: Boolean, default: false},
     totalCost: Number
 }, {versionKey: false})
 

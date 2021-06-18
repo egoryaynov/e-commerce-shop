@@ -16,7 +16,7 @@ const startDeliveryService = async () => {
         console.log('[DeliveryServer]: Client connected')
     })
 
-    deliveryServiceApp.use(cors({origin: 'http://127.0.0.1',}))
+    deliveryServiceApp.use(cors({origin: 'http://127.0.0.1'}))
     deliveryServiceApp.set('socketio', io)
 
     deliveryServiceApp.use('/', require('./routes/deliveryService.route'))

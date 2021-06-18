@@ -1,4 +1,4 @@
-const {protect, protectAdmin} = require("../middleware/auth.middleware");
+const {protect} = require("../middleware/auth.middleware");
 const {Router} = require('express')
 const router = Router()
 
