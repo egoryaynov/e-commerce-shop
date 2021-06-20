@@ -1,4 +1,5 @@
 const {Schema, Types, model} = require("mongoose")
+const Product = require('./Product.js')
 
 const OrderSchema = new Schema({
     status: {type: String, required: [true, 'Please inform status of Order']},
@@ -8,15 +9,21 @@ const OrderSchema = new Schema({
     totalCost: Number
 }, {versionKey: false})
 
-OrderSchema.pre('save', async (next) => {
+OrderSchema.pre('save', async function (next) {
     if (!this.isModified('products')) {
         next();
     }
 
-    this.totalCost = await this.populate('products')
-        .reduce((sum, product) => sum + (product.discount || product.price))
+    const ids = this.products.map(function (el) {
+        return Types.ObjectId(el)
+    })
 
-    next();
+    const products = await Product.aggregate([{$match: {_id: {"$in": ids}}}])
+
+    const reducer = (sum, product) => sum + (product.discount || product.price)
+    this.totalCost = products.reduce(reducer, 0)
+
+    next()
 });
 
 module.exports = model('Order', OrderSchema)

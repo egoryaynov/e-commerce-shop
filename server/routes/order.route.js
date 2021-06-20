@@ -4,7 +4,7 @@ const router = Router()
 
 const {payOrder} = require('../controllers/order.controller')
 
-router.get('/payment', protect, payOrder)
+router.post('/payment', protect, payOrder)
 
 // ADMIN ENDPOINTS
 // router.post('/', protect, protectAdmin, createProduct)

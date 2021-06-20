@@ -1,7 +1,6 @@
 const ErrorResponse = require("../utils/ErrorResponse")
 const Order = require('../models/Order')
-const {Product} = require("../models/Product")
-const http = require('http')
+const Product = require("../models/Product")
 const axios = require("axios");
 
 exports.payOrder = async (req, res, next) => {
@@ -23,36 +22,26 @@ exports.payOrder = async (req, res, next) => {
     try {
         const createOrder = async () => {
             const productIDs = products.map(product => product._id)
+            const addressId = address._id
 
             const order = new Order({
                 status: 'paid',
-                products: productIDs
+                products: productIDs,
+                address: addressId
             })
 
             user.orders.push(order._id)
 
-            // отправить заказ доставке (подумать в каком виде)
-            /*
-             DEEP POPULATE
-                          BlogModel
-                          .find({})
-                          .populate({
-                            path : 'userId',
-                            populate : {
-                              path : 'reviewId'
-                            }
-                          })
-             */
             await axios
                 .post(`http://127.0.0.1:${process.env.DELIVERY_PORT}`, {
-                    order: order
+                    order,
+                    addressId
                 })
                 .then(res => {
-                    console.log(`statusCode: ${res.statusCode}`)
-                    console.log(res)
                 })
                 .catch(error => {
                     console.error(error)
+                    next(new ErrorResponse('Error on send order to delivery', 500))
                 })
 
             // SAVING ORDER
@@ -65,12 +54,19 @@ exports.payOrder = async (req, res, next) => {
         }
 
         // imitation async request on payment service
-        await setTimeout(async () => {
-            res.status(201).json({
-                success: true,
-                order: await createOrder()
-            })
-        }, 5000)
+        // await setTimeout(async () => {
+        //     res.status(201).json({
+        //         success: true,
+        //         order: await createOrder()
+        //     })
+        // }, 5000)
+
+        const order = await createOrder()
+
+        res.status(201).json({
+            success: true,
+            order
+        })
     } catch (error) {
         next(error)
     }

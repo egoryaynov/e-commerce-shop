@@ -4,27 +4,7 @@ const app = express()
 const connectDB = require('./config/db')
 const errorHandler = require('./middleware/error.middleware')
 
-const cors = require('cors')
-const deliveryServiceApp = express()
-const http = require('http')
-const deliveryServiceServer = http.createServer(deliveryServiceApp)
-const {Server} = require("socket.io")
-const io = new Server(deliveryServiceServer)
-
-const startDeliveryService = async () => {
-    io.on('connection', (socket) => {
-        console.log('[DeliveryServer]: Client connected')
-    })
-
-    deliveryServiceApp.use(cors({origin: 'http://127.0.0.1'}))
-    deliveryServiceApp.set('socketio', io)
-
-    deliveryServiceApp.use('/', require('./routes/deliveryService.route'))
-
-    deliveryServiceServer.listen(process.env.DELIVERY_PORT, () => {
-        console.log('[DeliveryServer]: listening on port ' + process.env.DELIVERY_PORT);
-    })
-}
+const startDeliveryService = require('./config/startDeliveryService')
 
 Promise.all(
     [
@@ -34,7 +14,7 @@ Promise.all(
 ).then(() => {
     app.use(express.json())
 
-    // STATIC MIDDLEWARE
+    // STATIC IMAGES MIDDLEWARE
     app.use('/uploads/images', express.static(__dirname + '/uploads/images'))
 
     // API ENDPOINTS

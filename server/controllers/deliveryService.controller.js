@@ -1,9 +1,29 @@
-// exports.createWSChannel = async (req, res, next) => {
-//
-// }
+const Order = require('../models/Order')
 
-exports.sendOrders = async (req, res, next) => {
+exports.sendOrder = async (req, res, next) => {
     const io = req.app.get('socketio')
 
-    io.emit('hello', {as: 'as'})
+    // io.emit('hello', {as: 'as'})
+    console.log(req.body, 'REQUEST BODY')
+    try {
+        const wasSent = await io.emit('new_order', req.body.order)
+
+        if (wasSent) {
+            return res.status(200).json({
+                success: true
+            })
+        }
+
+        res.status(500).json({
+            success: false
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+exports.changeOrderStatus = async (data) => {
+    const {orderId, status} = data
+
+    await Order.findByIdAndUpdate(orderId, {status})
 }
