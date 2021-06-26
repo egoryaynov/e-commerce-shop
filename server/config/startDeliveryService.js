@@ -12,6 +12,7 @@ const startDeliveryService = async () => {
     })
 
     deliveryServiceApp.use(cors({origin: 'http://127.0.0.1'}))
+    deliveryServiceApp.use(express.json())
     deliveryServiceApp.set('socketio', io)
 
     deliveryServiceApp.use('/', require('../routes/deliveryService.route'))

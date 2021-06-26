@@ -4,7 +4,6 @@ exports.sendOrder = async (req, res, next) => {
     const io = req.app.get('socketio')
 
     // io.emit('hello', {as: 'as'})
-    console.log(req.body, 'REQUEST BODY')
     try {
         const wasSent = await io.emit('new_order', req.body.order)
 

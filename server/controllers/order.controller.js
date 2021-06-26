@@ -31,17 +31,17 @@ exports.payOrder = async (req, res, next) => {
             })
 
             user.orders.push(order._id)
-
             await axios
                 .post(`http://127.0.0.1:${process.env.DELIVERY_PORT}`, {
                     order,
                     addressId
-                })
-                .then(res => {
+                }, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
                 })
                 .catch(error => {
-                    console.error(error)
-                    next(new ErrorResponse('Error on send order to delivery', 500))
+                    return next(new ErrorResponse('Error on send order to delivery', 500))
                 })
 
             // SAVING ORDER
