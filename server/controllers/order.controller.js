@@ -5,12 +5,6 @@ const axios = require("axios");
 
 exports.payOrder = async (req, res, next) => {
     // todo realize PayPal sandbox payment
-    /* схема заказа :
-        1. пользователь набирает товары в корзину (сохраняется в localstorage)
-        2. пользователь оплачивает по этому url
-        3. тут создается заказ, ставится статус оплачено, заполняется нужная информация
-        4. заказ идет в сервис доставки
-     */
 
     const {address, products} = req.body
     const user = req.user
@@ -47,21 +41,19 @@ exports.payOrder = async (req, res, next) => {
             // SAVING ORDER
             await Product.updateMany({_id: {$in: productIDs}}, {$inc: {buyCount: 1}})
 
-            await order.save()
+            const savedOrder = await order.save()
             await user.save()
 
-            return order
+            return savedOrder
         }
 
-        // imitation async request on payment service
-        // await setTimeout(async () => {
-        //     res.status(201).json({
-        //         success: true,
-        //         order: await createOrder()
-        //     })
-        // }, 5000)
-
-        const order = await createOrder()
+        const orderId = (await createOrder())._id
+        const order = await Order.findById(orderId)
+            .populate('products')
+            .populate({
+                path: 'address',
+                populate: {path: 'user'}
+            })
 
         res.status(201).json({
             success: true,
@@ -69,5 +61,36 @@ exports.payOrder = async (req, res, next) => {
         })
     } catch (error) {
         next(error)
+    }
+}
+
+exports.getAllOrders = async (req, res, next) => {
+    try {
+        const orders = await Order.find({})
+            .populate({
+                path: 'products',
+                populate: {path: 'category'}
+            })
+            .populate({
+                path: 'address',
+                populate: {
+                    path: 'user',
+                    select: '-addresses -orders'
+                }
+            })
+
+        if (orders && orders.length > 0) {
+            return res.status(200).json({
+                success: true,
+                orders
+            })
+        }
+
+        return res.status(400).json({
+            success: false,
+            message: 'Bad request'
+        })
+    } catch (e) {
+        next(e)
     }
 }

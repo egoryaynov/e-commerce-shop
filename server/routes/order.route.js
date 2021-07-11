@@ -1,12 +1,12 @@
-const {protect} = require("../middleware/auth.middleware");
+const {protect, protectAdmin} = require("../middleware/auth.middleware");
 const {Router} = require('express')
 const router = Router()
 
-const {payOrder} = require('../controllers/order.controller')
+const {payOrder, getAllOrders} = require('../controllers/order.controller')
 
 router.post('/payment', protect, payOrder)
 
 // ADMIN ENDPOINTS
-// router.post('/', protect, protectAdmin, createProduct)
+router.get('/', protect, protectAdmin, getAllOrders)
 
 module.exports = router
