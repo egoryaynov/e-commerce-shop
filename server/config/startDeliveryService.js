@@ -9,18 +9,21 @@ const io = new Server(deliveryServiceServer)
 const startDeliveryService = async () => {
     io.on('connection', (socket) => {
         console.log('[DeliveryServer]: Client connected')
+
+        socket.on('change_status', (data) => {
+            const {changeOrderStatus} = require('../controllers/deliveryService.controller')
+            changeOrderStatus(data)
+        })
     })
 
-    deliveryServiceApp.use(cors({origin: 'http://127.0.0.1'}))
+    deliveryServiceApp.use(cors({
+        origin: 'http://127.0.0.1',
+        credentials: true
+    }))
     deliveryServiceApp.use(express.json())
     deliveryServiceApp.set('socketio', io)
 
     deliveryServiceApp.use('/', require('../routes/deliveryService.route'))
-
-    io.on('change_status', (data) => {
-        const {changeOrderStatus} = require('../controllers/deliveryService.controller')
-        changeOrderStatus(data)
-    })
 
     deliveryServiceServer.listen(process.env.DELIVERY_PORT, () => {
         console.log('[DeliveryServer]: listening on port ' + process.env.DELIVERY_PORT)

@@ -5,10 +5,6 @@ const Order = require('../../models/Order')
 
 const io = require("socket.io-client")
 
-const generateTimeToChangeStatus = () => {
-    return Math.round(Math.random() * 5 + 1) * 60 * 1000
-}
-
 connectDB('DeliveryService').then(() => {
     const socket = io(process.env.DELIVERY_WEBSOCKET_URL, {
         reconnection: true
@@ -19,25 +15,27 @@ connectDB('DeliveryService').then(() => {
     const stages = ['paid', 'picked', 'delivered']
 
     socket.on('connect', async function () {
+        socket.emit('aa', 'aaa')
         const orders = await Order.find({finished: false})
 
-        orders.forEach(order => {
-            const interval = setInterval(() => {
-                const newStatusName = stages[stages.indexOf(order.status) + 1]
+        if (orders && orders.length > 0) {
+            orders.forEach(order => {
+                const interval = setInterval(() => {
+                    const newStatusName = stages[stages.indexOf(order.status) + 1]
 
-                socket.emit('change_status', {orderId: order._id, status: newStatusName})
+                    socket.emit('change_status', {orderId: order._id, status: newStatusName})
 
-                if (newStatusName === 'delivered') clearInterval(interval)
-            }, generateTimeToChangeStatus())
-        })
+                    order.status = newStatusName
 
-        // socket.on('hello', function (data) {
-        //     console.log('message from the server:', data);
-        //     socket.emit('serverEvent', "thanks server! for sending '" + data + "'");
-        // });
+                    if (newStatusName === 'delivered') {
+                        clearInterval(interval)
+                    }
+                }, 5000)
+            })
+        }
+    })
 
-        socket.on('new_order', (data) => {
-            console.log('NEW ORDER IN DELIVERY', data)
-        })
+    socket.on('new_order', (data) => {
+        console.log('NEW ORDER IN DELIVERY', data)
     })
 })

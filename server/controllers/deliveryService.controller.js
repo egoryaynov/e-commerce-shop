@@ -1,6 +1,6 @@
 const Order = require('../models/Order')
 
-exports.sendOrder = async (req, res, next) => {
+module.exports.sendOrder = async (req, res, next) => {
     const io = req.app.get('socketio')
 
     // io.emit('hello', {as: 'as'})
@@ -21,8 +21,12 @@ exports.sendOrder = async (req, res, next) => {
     }
 }
 
-exports.changeOrderStatus = async (data) => {
+module.exports.changeOrderStatus = async (data) => {
     const {orderId, status} = data
 
     await Order.findByIdAndUpdate(orderId, {status})
+
+    if (status === 'delivered') {
+        await Order.findByIdAndUpdate(orderId, {finished: true})
+    }
 }
