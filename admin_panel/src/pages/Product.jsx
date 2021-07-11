@@ -3,8 +3,7 @@ import {useParams} from "react-router";
 import Template from "../components/Template";
 import {useHttp} from "../hooks/useHttp";
 import {ProductsApi} from "../api/ProductsApi";
-import {AppBar, CircularProgress, Tab, Tabs} from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
+import {AppBar, CircularProgress, Container, Tab, Tabs} from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import ImageTab from "../components/Product/ImageTab";
 import InfoTab from "../components/Product/InfoTab";
@@ -21,62 +20,65 @@ function TabPanel(props) {
             {...other}
         >
             {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
+                <Container>
+                    <Box p={3}>
+                        {children}
+                    </Box>
+                </Container>
             )}
         </div>
     );
 }
 
 const Product = () => {
-    const {id: productId} = useParams()
+        const {id: productId} = useParams()
 
-    const {request, isLoading} = useHttp()
-    const [product, setProduct] = useState()
-    const [value, setValue] = useState(0)
+        const {request, isLoading} = useHttp()
+        const [product, setProduct] = useState()
+        const [value, setValue] = useState(0)
 
-    const handleTabChange = (event, newValue) => {
-        setValue(newValue);
-    };
+        const handleTabChange = (event, newValue) => {
+            setValue(newValue);
+        };
 
-    useEffect(() => {
-        const options = new ProductsApi()
+        useEffect(() => {
+            const options = new ProductsApi()
 
-        const requestProduct = async () => {
-            try {
-                options.getProductById(productId)
-                const data = await request(options)
+            const requestProduct = async () => {
+                try {
+                    options.getProductById(productId)
+                    const data = await request(options)
 
-                setProduct(data.product)
-            } catch (e) {
-                console.error(e)
+                    setProduct(data.product)
+                } catch (e) {
+                    console.error(e)
+                }
             }
-        }
 
-        requestProduct()
-    }, [])
+            requestProduct()
+        }, [request, productId])
 
-    return (
-        <Template title={`Product ${productId}`}>
-            {isLoading || !product ? <CircularProgress/>
-                : <>
-                    <AppBar position="static">
-                        <Tabs value={value} onChange={handleTabChange} aria-label="simple tabs example">
-                            <Tab label="Info"/>
-                            <Tab label="Images"/>
-                        </Tabs>
-                    </AppBar>
-                    <TabPanel value={value} index={0}>
-                        <InfoTab productId={productId} product={product}/>
-                    </TabPanel>
-                    <TabPanel value={value} index={1}>
-                        <ImageTab images={product.images} setProduct={setProduct} productId={product._id}/>
-                    </TabPanel>
-                </>
-            }
-        </Template>
-    );
-};
+        return (
+            <Template title={`Product ${productId}`}>
+                {isLoading || !product ? <CircularProgress/>
+                    : <>
+                        <AppBar position="static">
+                            <Tabs value={value} onChange={handleTabChange} aria-label="simple tabs example">
+                                <Tab label="Info"/>
+                                <Tab label="Images"/>
+                            </Tabs>
+                        </AppBar>
+                        <TabPanel value={value} index={0}>
+                            <InfoTab productId={productId} product={product}/>
+                        </TabPanel>
+                        <TabPanel value={value} index={1}>
+                            <ImageTab images={product.images} setProduct={setProduct} productId={product._id}/>
+                        </TabPanel>
+                    </>
+                }
+            </Template>
+        );
+    }
+;
 
 export default Product;

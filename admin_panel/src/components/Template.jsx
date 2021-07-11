@@ -14,8 +14,6 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import {mainListItems, secondaryListItems} from '../listitems';
 import {Button, List} from "@material-ui/core";
-import {Copyright} from "./common/Copyright";
-import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
 import {useAuth} from "../hooks/useAuth";
 

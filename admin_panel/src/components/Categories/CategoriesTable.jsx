@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableRow from "@material-ui/core/TableRow";
@@ -25,7 +25,7 @@ const ChangeCategoryInput = ({changeCategoryName, initialName}) => {
 const CategoriesTable = React.memo(({categories, removeClickHandler, setCategories}) => {
     const {token} = useContext(TokenContext)
 
-    const {isLoading, request, error} = useHttp()
+    const {request} = useHttp()
     const [mustShowInputForId, setMustShowInputForId] = useState(null)
 
     const changeCategoryName = async (name) => {

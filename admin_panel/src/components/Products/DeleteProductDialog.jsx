@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from "@material-ui/core/Button";
-import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from "@material-ui/core";
+import {Dialog, DialogActions, DialogContent, DialogContentText} from "@material-ui/core";
 
 const DeleteProductDialog = ({open, handleDelete, handleDialogClose: handleClose}) => {
     return (

@@ -9,7 +9,7 @@ import {Redirect} from "react-router";
 
 const InfoTab = ({product, productId}) => {
     const {token} = useContext(TokenContext)
-    const {request, isLoading: submitting} = useHttp()
+    const {request} = useHttp()
 
     const {isLoading: isCategoriesLoading, categories} = useCategories()
 
@@ -45,7 +45,7 @@ const InfoTab = ({product, productId}) => {
 
             setSelectedCategoryName(selectedCategory.name)
         }
-    }, [categories]);
+    }, [categories, categoryId])
 
     if (isCategoriesLoading) return <CircularProgress/>
     if (edited) return <Redirect to={'/products'}/>

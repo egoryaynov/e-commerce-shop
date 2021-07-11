@@ -15,7 +15,7 @@ const ColorsTable = React.memo(({setColors: setFormColors, currentColors}) => {
 
     useEffect(() => {
         setFormColors(colors)
-    }, [colors])
+    }, [colors, setFormColors])
 
     const addColor = (name, hex) => {
         setColors([...colors, {name, hex}])

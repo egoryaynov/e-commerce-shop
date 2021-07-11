@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import Template from "../components/Template";
 import {useHttp} from "../hooks/useHttp";
 import {Pagination} from "@material-ui/lab";
@@ -28,7 +28,7 @@ const Products = () => {
 
     const {token} = useContext(TokenContext)
 
-    const {request, isLoading, error} = useHttp()
+    const {request, isLoading} = useHttp()
     const [products, setProducts] = useState([])
     const [page, setPage] = useState(1)
     const [pagesCount, setPagesCount] = useState(0)
@@ -44,7 +44,7 @@ const Products = () => {
         requestProducts()
     }
 
-    const requestProducts = () => {
+    const requestProducts = useCallback(() => {
         const options = new ProductsApi()
         options.getProducts(page)
 
@@ -53,11 +53,11 @@ const Products = () => {
                 setProducts(r.products.docs)
                 setPagesCount(r.products.totalPages)
             })
-    }
+    }, [page, request])
 
     useEffect(() => {
         requestProducts()
-    }, [page])
+    }, [page, requestProducts])
 
     return (
         <Template title='Products'>
@@ -88,8 +88,8 @@ const Products = () => {
                         {!isLoading && products.length > 0 &&
                         products.map(product => {
                             return (
-                                <Grid item xs={12} md={6} lg={6}>
-                                    <ProductItem key={product._id} product={product} deleteProduct={deleteProduct}/>
+                                <Grid key={product._id} item xs={12} md={6} lg={6}>
+                                    <ProductItem product={product} deleteProduct={deleteProduct}/>
                                 </Grid>
                             )
                         })}

@@ -19,7 +19,7 @@ const AddProduct = () => {
     const classes = useStyle()
     const {token} = useContext(TokenContext)
 
-    const {request, isLoading: isCreatingProduct, error} = useHttp()
+    const {request, isLoading: isCreatingProduct} = useHttp()
 
     const [name, setName] = useState('');
     const [price, setPrice] = useState('0');

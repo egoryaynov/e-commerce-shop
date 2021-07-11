@@ -48,7 +48,7 @@ const DeleteCategoryConfirm = ({open, deleteHandler, dialogCloseHandler: closeHa
 const Categories = () => {
         const {token} = useContext(TokenContext)
 
-        const {request, isLoading: changingCategory, error} = useHttp()
+        const {request, isLoading: changingCategory} = useHttp()
         const {categories, setCategories, isLoading: isCategoriesLoading} = useCategories()
 
         const [mustDialogOpen, setMustDialogOpen] = useState(false)
