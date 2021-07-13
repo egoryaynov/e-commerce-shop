@@ -14,5 +14,7 @@
   "devDependencies": {
     "concurrently": "^6.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@ant-design/icons": "^4.6.2"
+  }
 }

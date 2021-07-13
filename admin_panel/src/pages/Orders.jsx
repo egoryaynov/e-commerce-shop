@@ -8,7 +8,7 @@ import {CircularProgress} from "@material-ui/core";
 const Orders = () => {
     const {request, isLoading} = useHttp()
     const {token} = useContext(TokenContext)
-    const [orders, setOrders] = useState()
+    const [orders, setOrders] = useState([])
 
     const requestOrders = useCallback(async () => {
         const options = new OrdersApi()
@@ -24,7 +24,13 @@ const Orders = () => {
 
     return (
         <Template title='Orders'>
-            {isLoading && <CircularProgress/>}
+            {console.log(orders)}
+            {isLoading
+                ? <CircularProgress/>
+                : orders.map(order => {
+                    return <p>{order._id}</p>
+                })
+            }
         </Template>
     );
 };

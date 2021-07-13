@@ -94,3 +94,28 @@ exports.getAllOrders = async (req, res, next) => {
         next(e)
     }
 }
+
+exports.orderReceived = async (req, res, next) => {
+    const {orderId} = req.body
+
+    try {
+        const order = await Order.findOneAndUpdate({
+            _id: orderId,
+            address: {$in: req.user.addresses}
+        }, {status: 'received'})
+
+        if (order) {
+            return res.status(200).json({
+                success: true,
+                order
+            })
+        }
+
+        return res.status(400).json({
+            success: false,
+            message: 'Order doesn\'t exist'
+        })
+    } catch (e) {
+        next(e)
+    }
+}
