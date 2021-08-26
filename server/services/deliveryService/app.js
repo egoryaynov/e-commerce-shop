@@ -1,4 +1,4 @@
-require('dotenv').config({path: '././config.env'})
+require('dotenv').config({ path: '././config.env' })
 const connectDB = require('../../config/db')
 
 const Order = require('../../models/Order')
@@ -17,18 +17,18 @@ connectDB('DeliveryService').then(() => {
         const interval = setInterval(() => {
             const newStatusName = stages[stages.indexOf(order.status) + 1]
 
-            socket.emit('change_status', {orderId: order._id, status: newStatusName})
+            socket.emit('change_status', { orderId: order._id, status: newStatusName })
 
             order.status = newStatusName
 
             if (newStatusName === 'delivered') {
                 clearInterval(interval)
             }
-        }, 5000)
+        }, 120000)
     }
 
     socket.on('connect', async function () {
-        const orders = await Order.find({finished: false})
+        const orders = await Order.find({ finished: false })
 
         // Handle prev unfinished orders
         if (orders && orders.length > 0) {
