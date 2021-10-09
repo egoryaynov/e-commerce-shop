@@ -1,10 +1,21 @@
 import React from 'react';
-import Page500 from "./pages/exception/Page500";
+import MainLayout from "./components/MainLayout/MainLayout";
+import {Route, Switch} from "react-router-dom";
+import {Exception} from "./pages/Exception/Exception";
+import Home from "./components/Home/Home";
 
 const App: React.FC = () => (
-    <Page500>
+    <MainLayout>
+        <Switch>
+            <Route exact path="/">
+                <Home/>
+            </Route>
 
-    </Page500>
+            <Route path="*">
+                <Exception statusCode={404} title="Sorry, page not found" subtitle="Requested page doesn't exist"/>
+            </Route>
+        </Switch>
+    </MainLayout>
 )
 
 export default App;

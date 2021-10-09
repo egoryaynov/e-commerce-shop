@@ -10,12 +10,17 @@
     "@types/node": "^12.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.3.1",
     "antd": "^4.16.7",
+    "@ant-design/icons": "^4.6.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.4",
+    "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "typescript": "^4.1.2",
+    "node-sass": "^6.0.1",
+    "sass": "^1.42.1",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
