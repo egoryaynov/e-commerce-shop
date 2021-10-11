@@ -6,6 +6,12 @@ const errorHandler = require('./middleware/error.middleware')
 
 const startDeliveryService = require('./config/startDeliveryService')
 
+const swaggerUi = require("swagger-ui-express")
+const swaggerDocument = require('./swagger.json')
+
+// API DOCUMENTATION
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+
 Promise.all(
     [
         startDeliveryService(),
@@ -18,15 +24,15 @@ Promise.all(
     app.use('/uploads/images', express.static(__dirname + '/uploads/images'))
 
     // API ENDPOINTS
-    const getEndpointUrl = (endpoint) => {
+    const getEndpointUrlV1 = (endpoint) => {
         return `/api/v1/${endpoint}`
     }
 
-    app.use(getEndpointUrl('auth'), require('./routes/auth.route'))
-    app.use(getEndpointUrl('address'), require('./routes/address.route'))
-    app.use(getEndpointUrl('category'), require('./routes/category.route'))
-    app.use(getEndpointUrl('product'), require('./routes/product.route'))
-    app.use(getEndpointUrl('order'), require('./routes/order.route'))
+    app.use(getEndpointUrlV1('auth'), require('./routes/auth.route'))
+    app.use(getEndpointUrlV1('address'), require('./routes/address.route'))
+    app.use(getEndpointUrlV1('category'), require('./routes/category.route'))
+    app.use(getEndpointUrlV1('product'), require('./routes/product.route'))
+    app.use(getEndpointUrlV1('order'), require('./routes/order.route'))
 
     // error handler
     app.use(errorHandler)
