@@ -1,6 +1,6 @@
 export type Product = {}
 
-export type ProductsList = [{
+export type ProductInList = {
     _id: string
     name: string
     price: string
@@ -9,4 +9,6 @@ export type ProductsList = [{
     colors: [{ _id: string, name: string, hex: string }]
     category: [{ _id: string, name: string }]
     image?: string
-}]
+}
+
+export type ProductsList = [ProductInList]
