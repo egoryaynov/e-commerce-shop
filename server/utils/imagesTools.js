@@ -28,7 +28,7 @@ const resizeImages = async (req, res, next) => {
             let newFilename = `${nanoid()}.${mime.extension(file.mimetype)}`
 
             await sharp(file.buffer)
-                .resize(840, 840)
+                .resize({width: 840, height: 840, fit: 'fill'})
                 .toFormat('jpeg')
                 .jpeg({quality: 90})
                 .toFile(`uploads/images/${newFilename}`)
