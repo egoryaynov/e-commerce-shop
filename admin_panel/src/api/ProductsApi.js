@@ -45,7 +45,7 @@ export class ProductsApi {
         // for (let i = 0; i < photoFiles.length; i++) {
         //     formData.append('file', photoFiles[i])
         // }
-        photoFiles.forEach(file => {
+        Array.from(photoFiles).forEach(file => {
             formData.append('file', file)
         })
         formData.append('productId', productId)
