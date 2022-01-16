@@ -17,22 +17,22 @@ const Navigation = () => {
                         <span>Home</span>
                     </NavLink>
                 </Menu.Item>
-                <Menu.Item key="/other">
-                    <NavLink to="/other">
-                        <span>Applications</span>
-                    </NavLink>
-                </Menu.Item>
-                <Menu.Item key="/notifications">
-                    <NavLink to="/notifications">
-                        <span>Notifications</span>
-                    </NavLink>
-                </Menu.Item>
+                {/*<Menu.Item key="/categories">*/}
+                {/*    <NavLink to="/categories">*/}
+                {/*        <span>Categories</span>*/}
+                {/*    </NavLink>*/}
+                {/*</Menu.Item>*/}
                 <Menu.SubMenu key="/categories" title="Categories">
                     <Menu.Item key="setting:1">Option 1</Menu.Item>
                     <Menu.Item key="setting:2">Option 2</Menu.Item>
                     <Menu.Item key="setting:3">Option 3</Menu.Item>
                     <Menu.Item key="setting:4">Option 4</Menu.Item>
                 </Menu.SubMenu>
+                <Menu.Item key="/profile">
+                    <NavLink to="/profile">
+                        <span>Profile</span>
+                    </NavLink>
+                </Menu.Item>
             </Menu>
         </>
     );

@@ -17,7 +17,7 @@ const MainLayout: React.FC<PropsType> = (props) => {
                 <Navigation/>
             </Header>
             <Content className={styles.content}>
-                {props.isLoading && props.Skeleton ? props.Skeleton : props.children}
+                {props.children}
             </Content>
         </Layout>
     );

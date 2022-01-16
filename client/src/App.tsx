@@ -2,7 +2,8 @@ import React from 'react';
 import MainLayout from "./components/MainLayout/MainLayout";
 import {Route, Switch} from "react-router-dom";
 import {Exception} from "./pages/Exception/Exception";
-import Home from "./components/Home/Home";
+import Home from "./pages/Home/Home";
+import './App.scss';
 
 const App: React.FC = () => (
     <MainLayout>
