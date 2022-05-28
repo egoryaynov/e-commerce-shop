@@ -24,7 +24,6 @@ const Orders = () => {
 
     return (
         <Template title='Orders'>
-            {console.log(orders)}
             {isLoading
                 ? <CircularProgress/>
                 : orders.map(order => {

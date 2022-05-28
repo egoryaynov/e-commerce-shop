@@ -4,8 +4,6 @@ const Product = require("../models/Product")
 const axios = require("axios");
 
 exports.payOrder = async (req, res, next) => {
-    // todo realize PayPal sandbox payment
-
     const {address, products} = req.body
     const user = req.user
 
@@ -21,7 +19,8 @@ exports.payOrder = async (req, res, next) => {
             const order = new Order({
                 status: 'paid',
                 products: productIDs,
-                address: addressId
+                address: addressId,
+                date: Date.now()
             })
 
             user.orders.push(order._id)
@@ -79,7 +78,7 @@ exports.getAllOrders = async (req, res, next) => {
                 }
             })
 
-        if (orders && orders.length > 0) {
+        if (orders) {
             return res.status(200).json({
                 success: true,
                 orders

@@ -12,7 +12,7 @@ import Badge from '@material-ui/core/Badge';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import {mainListItems, secondaryListItems} from '../listitems';
+import {mainListItems} from '../listitems';
 import {Button, List} from "@material-ui/core";
 import Container from "@material-ui/core/Container";
 import {useAuth} from "../hooks/useAuth";
@@ -151,8 +151,6 @@ export default function Template(props) {
                 </div>
                 <Divider/>
                 <List>{mainListItems}</List>
-                <Divider/>
-                <List>{secondaryListItems}</List>
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
