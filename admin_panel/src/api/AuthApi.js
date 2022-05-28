@@ -16,4 +16,12 @@ export class AuthApi {
             email, password
         }
     }
+
+    getUsers = (token) => {
+        this.url = `${API.baseUrl}/auth/users`
+        this.method = 'GET'
+        this.headers = {
+            Authorization: `Bearer ${token}`
+        }
+    }
 }

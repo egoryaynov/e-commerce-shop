@@ -4,12 +4,13 @@ import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Deposits from '../components/Dashboard/Deposits';
-import Orders from '../components/Dashboard/Orders';
+import OrdersTable from '../components/Dashboard/OrdersTable';
 import Template from "../components/Template";
 import Chart from "../components/Dashboard/Chart";
 import {useHttp} from "../hooks/useHttp";
 import {TokenContext} from "../context/TokenContext";
 import {OrdersApi} from "../api/OrdersApi";
+import {CircularProgress} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -46,8 +47,9 @@ export default function Dashboard() {
 
     return (
         <Template title='Dashboard'>
-            {orders &&
-                <Grid container spacing={3}>
+            {isLoading || !orders
+                ? <CircularProgress/>
+                : <Grid container spacing={3}>
                     {/* Chart */}
                     <Grid item xs={12} md={8} lg={9}>
                         <Paper className={fixedHeightPaper}>
@@ -64,7 +66,7 @@ export default function Dashboard() {
                     {/* Recent Orders */}
                     <Grid item xs={12}>
                         <Paper className={classes.paper}>
-                            <Orders orders={orders}/>
+                            <OrdersTable orders={orders}/>
                         </Paper>
                     </Grid>
                 </Grid>

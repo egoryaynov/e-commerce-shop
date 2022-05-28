@@ -15,12 +15,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Orders({orders}) {
+export default function OrdersTable({orders, needShowFullList = false}) {
     const classes = useStyles();
 
     return (
         <React.Fragment>
-            <Title>Recent Orders</Title>
+            <Title>{needShowFullList ? 'Orders' : 'Recent Orders'}</Title>
             <Table size="small">
                 <TableHead>
                     <TableRow>
@@ -31,7 +31,7 @@ export default function Orders({orders}) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {orders.map((row) => (
+                    {orders.slice(0, needShowFullList ? orders.length : 5).map((row) => (
                         <TableRow key={row._id}>
                             <TableCell>{new Date(row.date).toDateString()}</TableCell>
                             <TableCell>{`${row.address.user.firstName} ${row.address.user.secondName}`}</TableCell>
@@ -41,16 +41,18 @@ export default function Orders({orders}) {
                     ))}
                 </TableBody>
             </Table>
-            <div className={classes.seeMore}>
-                <Link to="/orders" style={{
-                    textDecoration: 'none',
-                    textTransform: 'lowercase'
-                }}>
-                    <Button variant="outlined" color="primary">
-                        See more orders
-                    </Button>
-                </Link>
-            </div>
+            {!needShowFullList &&
+                <div className={classes.seeMore}>
+                    <Link to="/orders" style={{
+                        textDecoration: 'none',
+                        textTransform: 'lowercase'
+                    }}>
+                        <Button variant="outlined" color="primary">
+                            See more orders
+                        </Button>
+                    </Link>
+                </div>
+            }
         </React.Fragment>
     );
 }

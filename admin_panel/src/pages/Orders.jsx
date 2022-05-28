@@ -4,6 +4,7 @@ import {useHttp} from "../hooks/useHttp";
 import {OrdersApi} from "../api/OrdersApi";
 import {TokenContext} from "../context/TokenContext";
 import {CircularProgress} from "@material-ui/core";
+import OrdersTable from "../components/Dashboard/OrdersTable";
 
 const Orders = () => {
     const {request, isLoading} = useHttp()
@@ -21,14 +22,11 @@ const Orders = () => {
         requestOrders().then()
     }, [requestOrders])
 
-
     return (
         <Template title='Orders'>
             {isLoading
                 ? <CircularProgress/>
-                : orders.map(order => {
-                    return <p>{order._id}</p>
-                })
+                : <OrdersTable orders={orders} needShowFullList={true}/>
             }
         </Template>
     );

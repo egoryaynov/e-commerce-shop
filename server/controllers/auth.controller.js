@@ -175,6 +175,15 @@ exports.verifyAdminToken = async (req, res, next) => {
     }
 }
 
+exports.getUsers = async (req, res, next) => {
+    const users = await User.find()
+    
+    if (users) return res.status(200).json({
+        success: true,
+        users
+    })
+}
+
 const sendSignedToken = async (user, statusCode, res) => {
     const token = await user.getSignedToken()
     res.status(statusCode).json({success: true, token})

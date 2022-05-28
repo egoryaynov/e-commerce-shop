@@ -7,8 +7,10 @@ const {
     adminLogin,
     forgotPassword,
     resetPassword,
-    verifyAdminToken
+    verifyAdminToken, getUsers
 } = require('../controllers/auth.controller')
+
+const {protect, protectAdmin} = require("../middleware/auth.middleware");
 
 router.post('/register', register)
 router.post('/login', login)
@@ -17,5 +19,8 @@ router.put('/resetpassword/:resetToken', resetPassword)
 
 router.post('/admin/login', adminLogin)
 router.post('/admin/verify', verifyAdminToken)
+
+// ADMIN ENDPOINTS
+router.get('/users', protect, protectAdmin, getUsers)
 
 module.exports = router
