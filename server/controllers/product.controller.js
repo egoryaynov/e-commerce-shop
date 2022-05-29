@@ -38,7 +38,7 @@ exports.deleteProduct = async (req, res, next) => {
             } else {
                 doc.images.forEach(image => {
                     const splitedImage = image.split('/')
-                    
+
                     fs.unlinkSync(path.join(__dirname, '/../uploads/images/', splitedImage[splitedImage.length - 1]))
                 })
 

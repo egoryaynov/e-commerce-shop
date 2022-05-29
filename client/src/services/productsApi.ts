@@ -6,9 +6,10 @@ export type GetProductsParams = {
     page?: number
     limit?: number
     sort?: 'name_asc' | 'name_desc' | 'buyCount_asc' | 'buyCount_desc' | 'price_asc' | 'price_desc' | 'discount_asc' | 'discount_desc'
-    filter?: string
+    filter?: 'category' | 'color' | 'discount' | string
     categories?: string
     colors?: string
+    id?: string
 }
 
 type GetProductsResponse = {

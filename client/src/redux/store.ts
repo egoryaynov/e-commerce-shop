@@ -1,9 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit'
 import {productsApi} from "../services/productsApi";
+import {lastViewedReducer} from "./slices/lastViewedSlice";
+import {appReducer} from "./slices/appSlice";
 
 export const store = configureStore({
     reducer: {
         [productsApi.reducerPath]: productsApi.reducer,
+        lastViewed: lastViewedReducer,
+        app: appReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware().concat(productsApi.middleware),

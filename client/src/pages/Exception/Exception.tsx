@@ -16,7 +16,7 @@ export const Exception: React.FC<PropsType> = ({statusCode, title, subtitle}) =>
             title={title}
             subTitle={subtitle}
             extra={
-                <Button type="primary"><Link to="/">Back Home</Link></Button>
+                <Button type="primary"><Link to="/">Главная</Link></Button>
             }
         />
     )

@@ -1,9 +1,8 @@
 import React from 'react';
 import PopularProducts from "../../components/PopularProducts/PopularProducts";
-import LastVIewedProducts from "../../components/LastVIewedProducts/LastVIewedProducts";
+import LastViewedProducts from "../../components/LastViewedProducts/LastViewedProducts";
 
 const Home: React.FC = () => {
-    // Banner (In the future...)
     // POPULAR PRODUCTS (by buyCount)
     // Categories
     // Last viewed products
@@ -12,7 +11,7 @@ const Home: React.FC = () => {
     return (
         <>
             <PopularProducts/>
-            <LastVIewedProducts/>
+            <LastViewedProducts/>
         </>
     );
 };

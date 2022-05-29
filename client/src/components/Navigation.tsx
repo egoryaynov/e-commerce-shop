@@ -14,7 +14,7 @@ const Navigation = () => {
             >
                 <Menu.Item key="/">
                     <NavLink to="/">
-                        <span>Home</span>
+                        <span>Главная</span>
                     </NavLink>
                 </Menu.Item>
                 {/*<Menu.Item key="/categories">*/}
@@ -22,15 +22,14 @@ const Navigation = () => {
                 {/*        <span>Categories</span>*/}
                 {/*    </NavLink>*/}
                 {/*</Menu.Item>*/}
-                <Menu.SubMenu key="/categories" title="Categories">
-                    <Menu.Item key="setting:1">Option 1</Menu.Item>
-                    <Menu.Item key="setting:2">Option 2</Menu.Item>
-                    <Menu.Item key="setting:3">Option 3</Menu.Item>
-                    <Menu.Item key="setting:4">Option 4</Menu.Item>
-                </Menu.SubMenu>
+                <Menu.Item key="/categories">
+                    <NavLink to="/categories">
+                        <span>Категории</span>
+                    </NavLink>
+                </Menu.Item>
                 <Menu.Item key="/profile">
                     <NavLink to="/profile">
-                        <span>Profile</span>
+                        <span>Профиль</span>
                     </NavLink>
                 </Menu.Item>
             </Menu>

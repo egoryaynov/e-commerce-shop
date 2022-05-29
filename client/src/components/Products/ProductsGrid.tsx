@@ -14,7 +14,7 @@ const ProductsGrid: React.FC<PropsType> = ({products, isLoading, error}) => {
 
     return (
         <div>
-            {products && products.length < 1 && <Alert type={'warning'} message={'Product list is empty'} banner/>}
+            {products && products.length < 1 && <Alert type={'warning'} message={'Список товаров пуст'} banner/>}
             <Row justify="start">
                 {products
                     ? products.map((product) => (

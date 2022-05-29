@@ -1,14 +1,13 @@
 const Category = require('../models/Category')
+const mongoose = require('mongoose');
 
 const parseQueryParams = async (req) => {
     const result = {}
     result.sort = {}
 
-    let categories;
-
     // FILTERS
     if (req.query.filter && req.query.filter.includes('category') && req.query.categories) {
-        categories = req.query.categories.split(',')
+        result.categories = req.query.categories.split(',').map(id => mongoose.Types.ObjectId(id.trim()))
     }
     if (req.query.filter && req.query.filter.includes('color') && req.query.colors) {
         result.colorsFilters = req.query.colors.split(',')
@@ -16,18 +15,8 @@ const parseQueryParams = async (req) => {
     if (req.query.filter && req.query.filter.includes('discount')) {
         result.hasDiscountFilter = true
     }
-
-    // get categories id's
-    if (categories) {
-        await Category.find({
-            name: {
-                $in: categories
-            }
-        }, (err, doc) => {
-            if (!err) {
-                result.categoriesIds = doc.map(document => document._id)
-            }
-        })
+    if (req.query.id) {
+        result.id = req.query.id.split(',').map(id => mongoose.Types.ObjectId(id.trim()))
     }
 
     // SORT
@@ -64,6 +53,7 @@ module.exports.getAggregateQuery = async function (req) {
         },
         {
             $project: {
+                buyCount: 1,
                 name: 1,
                 price: 1,
                 category: 1,
@@ -86,9 +76,14 @@ module.exports.getAggregateQuery = async function (req) {
     ]
 
     // FILTERS
-    if (parsedQuery.categoriesIds) {
+    if (parsedQuery.categories) {
         aggregateQuery[0].$match.category = {
-            $in: parsedQuery.categoriesIds
+            $in: parsedQuery.categories
+        }
+    }
+    if (parsedQuery.id) {
+        aggregateQuery[0].$match._id = {
+            $in: parsedQuery.id
         }
     }
     if (parsedQuery.colorsFilters) {
