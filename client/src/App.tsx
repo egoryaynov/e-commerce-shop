@@ -4,32 +4,28 @@ import {Route, Switch} from "react-router-dom";
 import {Exception} from "./pages/Exception/Exception";
 import Home from "./pages/Home/Home";
 import './App.scss';
-import {useDispatch, useSelector} from "react-redux";
-import {RootState} from "./redux/store";
-import {initializeApp} from "./redux/slices/appSlice";
+import {useDispatch} from "react-redux";
+import ProductPage from "./pages/Product/ProductPage";
+import { getLastViewedProducts } from 'redux/slices/lastViewedSlice';
 
 const App: React.FC = () => {
-    const initialized = useSelector((state: RootState) => state.app.initialized)
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(initializeApp())
+        dispatch(getLastViewedProducts())
     }, []);
 
     return (
         <MainLayout>
-            {initialized &&
-                <Switch>
-                    <Route exact path="/">
-                        <Home/>
-                    </Route>
+            <Switch>
+                <Route exact path="/" component={Home} />
+                <Route exact path="/product/:id" component={ProductPage} />
 
-                    <Route path="*">
-                        <Exception statusCode={404} title="Страница не найдена"
-                                   subtitle="Запрашиваемой страницы не существует"/>
-                    </Route>
-                </Switch>
-            }
+                <Route path="*">
+                    <Exception statusCode={404} title="Страница не найдена"
+                        subtitle="Запрашиваемой страницы не существует" />
+                </Route>
+            </Switch>
         </MainLayout>
     )
 }

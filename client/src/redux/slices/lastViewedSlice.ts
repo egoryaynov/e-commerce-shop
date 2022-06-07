@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit'
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {LocalStorageKeys} from "../../types/LocalStorageKeys";
 
 interface LastViewedState {
@@ -17,13 +17,19 @@ export const lastViewedSlice = createSlice({
             const lastViewedIDs = localStorage.getItem(LocalStorageKeys.LAST_VIEWED)
 
             if (lastViewedIDs && lastViewedIDs.length > 0) {
-                const lastViewedArr = JSON.parse(lastViewedIDs)
+                state.products = JSON.parse(lastViewedIDs)
+            }
+        },
+        addLastViewedProduct(state, action: PayloadAction<string>) {
+            if (!state.products.includes(action.payload)) {
+                const newProducts = [action.payload, ...state.products]
+                localStorage.setItem(LocalStorageKeys.LAST_VIEWED, JSON.stringify(newProducts))
 
-                state.products = lastViewedArr as unknown as string[]
+                state.products = newProducts
             }
         }
     },
 })
 
-export const {getLastViewedProducts} = lastViewedSlice.actions
+export const {getLastViewedProducts, addLastViewedProduct} = lastViewedSlice.actions
 export const lastViewedReducer = lastViewedSlice.reducer

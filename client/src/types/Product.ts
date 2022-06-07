@@ -1,4 +1,21 @@
-export type Product = {}
+export type Product = {
+    buyCount: number
+    category: {
+        _id: string
+        name: string
+    }
+    colors: {
+        hex: string
+        name: string
+        _id: string
+    }[]
+    comments: []
+    description: string
+    images: string[]
+    name: string
+    price: number
+    _id: string
+}
 
 export type ProductInList = {
     _id: string
