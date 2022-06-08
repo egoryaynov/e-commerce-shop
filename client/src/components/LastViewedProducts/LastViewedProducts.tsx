@@ -13,7 +13,7 @@ const LastViewedProducts = () => {
     return (
         <div>
             <Title level={2}>Последние просмотренные товары</Title>
-            <ProductsGrid products={data ? data.products.docs : null} isLoading={isLoading} error={error}/>
+            <ProductsGrid products={data ? data.products.docs.slice(0, 5) : null} isLoading={isLoading} error={error}/>
         </div>
     );
 };

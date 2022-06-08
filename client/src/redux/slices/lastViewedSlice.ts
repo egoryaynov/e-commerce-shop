@@ -3,10 +3,12 @@ import {LocalStorageKeys} from "../../types/LocalStorageKeys";
 
 interface LastViewedState {
     products: string[]
+    initialized: boolean
 }
 
 const initialState = {
-    products: []
+    products: [],
+    initialized: false
 } as LastViewedState
 
 export const lastViewedSlice = createSlice({
@@ -19,6 +21,8 @@ export const lastViewedSlice = createSlice({
             if (lastViewedIDs && lastViewedIDs.length > 0) {
                 state.products = JSON.parse(lastViewedIDs)
             }
+
+            state.initialized = true
         },
         addLastViewedProduct(state, action: PayloadAction<string>) {
             if (!state.products.includes(action.payload)) {

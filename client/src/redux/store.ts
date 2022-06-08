@@ -1,10 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit'
+import { categoryApi } from 'services/categoryApi';
 import {productsApi} from "../services/productsApi";
 import {lastViewedReducer} from "./slices/lastViewedSlice";
 
 export const store = configureStore({
     reducer: {
         [productsApi.reducerPath]: productsApi.reducer,
+        [categoryApi.reducerPath]: categoryApi.reducer,
         lastViewed: lastViewedReducer,
     },
     middleware: (getDefaultMiddleware) =>

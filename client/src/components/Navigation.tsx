@@ -17,11 +17,11 @@ const Navigation = () => {
                         <span>Главная</span>
                     </NavLink>
                 </Menu.Item>
-                {/*<Menu.Item key="/categories">*/}
-                {/*    <NavLink to="/categories">*/}
-                {/*        <span>Categories</span>*/}
-                {/*    </NavLink>*/}
-                {/*</Menu.Item>*/}
+                <Menu.Item key="/products">
+                    <NavLink to="/products">
+                        <span>Каталог</span>
+                    </NavLink>
+                </Menu.Item>
                 <Menu.Item key="/categories">
                     <NavLink to="/categories">
                         <span>Категории</span>
