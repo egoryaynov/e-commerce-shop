@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import MainLayout from "./components/MainLayout/MainLayout";
 import {Route, Switch} from "react-router-dom";
 import {Exception} from "./pages/Exception/Exception";
@@ -10,16 +10,38 @@ import { getLastViewedProducts } from 'redux/slices/lastViewedSlice';
 import CategoriesPage from 'pages/Categories/CategoriesPage';
 import ProductsPage from 'pages/Products/ProductsPage';
 import { RootState } from 'redux/store';
+import { deleteToken, initToken, updateUserInfo } from 'redux/slices/authSlice';
+import { useLazyGetUserInfoQuery } from 'services/authApi';
 
 const App: React.FC = () => {
+    const [initialized, setinitialized] = useState(false)
+    const [trigger, { isLoading, data, error }] = useLazyGetUserInfoQuery()
+
     const lastViewedInitialized = useSelector((state: RootState) => state.lastViewed.initialized)
+    const tokenInitialized = useSelector((state: RootState) => state.auth.initialized)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getLastViewedProducts())
-    }, []);
+        dispatch(initToken())
+    }, [])
 
-    if (!lastViewedInitialized) return null
+    useEffect(() => {
+        if (lastViewedInitialized && tokenInitialized) {
+            trigger({})
+            setinitialized(true)
+        }
+    }, [lastViewedInitialized, tokenInitialized])
+
+    useEffect(() => {
+        if (error) dispatch(deleteToken())
+    }, [error])
+
+    useEffect(() => {
+        if (data) dispatch(updateUserInfo(data.user))
+    }, [data])
+    
+    if (!initialized) return null
 
     return (
         <MainLayout>

@@ -1,4 +1,5 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import { protectedBaseQuery } from './authApi'
 
 type GetCategoriesResponse = {
     success: boolean
@@ -10,7 +11,7 @@ type GetCategoriesResponse = {
 
 export const categoryApi = createApi({
     reducerPath: 'categoryApi',
-    baseQuery: fetchBaseQuery({ baseUrl: '/api/v1' }),
+    baseQuery: protectedBaseQuery,
     endpoints: (builder) => ({
         getCategories: builder.query<GetCategoriesResponse, {}>({
             query: (params) => ({ url: `category` })

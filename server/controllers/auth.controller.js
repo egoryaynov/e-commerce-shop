@@ -5,6 +5,17 @@ const ErrorResponse = require('../utils/ErrorResponse')
 const sendEmail = require('../utils/sendEmail')
 const crypto = require('crypto')
 
+exports.getUserInfo = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.user._id)
+            .populate('addresses')
+            .populate('orders')
+            
+        res.status(200).json({ success: true, user })
+    } catch (error) {
+        next(error)
+    }
+}
 exports.register = async (req, res, next) => {
     const {firstName, secondName, middleName, email, password} = req.body
 
