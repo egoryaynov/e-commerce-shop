@@ -50,10 +50,13 @@ exports.payOrder = async (req, res, next) => {
 
         const orderId = (await createOrder())._id
         const order = await Order.findById(orderId)
-            .populate('products')
             .populate({
                 path: 'address',
                 populate: {path: 'user'}
+            })
+            .populate({
+                path: 'products',
+                populate: {path: 'product'}
             })
 
         res.status(201).json({

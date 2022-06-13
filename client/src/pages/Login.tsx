@@ -1,9 +1,10 @@
 import React from 'react';
+import Title from "antd/lib/typography/Title"
 
 const Login = () => {
     return (
         <div>
-            Hello world
+            <Title level={2}>Авторизация</Title>
         </div>
     );
 };

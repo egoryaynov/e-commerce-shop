@@ -1,4 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit'
+import { addressApi } from 'services/addressApi';
 import { authApi } from 'services/authApi';
 import { categoryApi } from 'services/categoryApi';
 import { orderApi } from 'services/orderApi';
@@ -13,6 +14,7 @@ export const store = configureStore({
         [categoryApi.reducerPath]: categoryApi.reducer,
         [authApi.reducerPath]: authApi.reducer,
         [orderApi.reducerPath]: orderApi.reducer,
+        [addressApi.reducerPath]: addressApi.reducer,
         lastViewed: lastViewedReducer,
         auth: authReducer,
         cart: cartReducer

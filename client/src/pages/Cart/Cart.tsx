@@ -10,6 +10,7 @@ import { useLazySendOrderQuery } from "services/orderApi"
 import { AddressItemType } from "types/Address"
 import { CartProductsItem } from "types/Product";
 import { clearCart, deleteProductFromCart } from "redux/slices/cartSlice";
+import { addOrder } from "redux/slices/authSlice";
 
 type DataType = Omit<CartProductsItem['product'], 'discount'> & { colorName: string }
 
@@ -82,6 +83,8 @@ const CartPage = () => {
     useEffect(() => {
         if (data) {
             dispatch(clearCart())
+            dispatch(addOrder(data.order))
+            
             notification["success"]({
                 message: "Заказ успешно создан!"
             })
@@ -95,7 +98,7 @@ const CartPage = () => {
             {cartProducts && cartProducts.length > 0  
                 ? <>
                     {<Table pagination={false} dataSource={tableData} columns={tableColumns} />}
-
+                    
                     {user
                         ? <div style={{ marginTop: 15 }}><AddressSelector setAddress={setAddress} /></div>
                         : <Alert style={{ marginTop: 15 }} type={'warning'} message={<span>Необходимо <Link to="/login">авторизоваться</Link></span>} banner />

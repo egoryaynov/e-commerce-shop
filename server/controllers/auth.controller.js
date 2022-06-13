@@ -9,7 +9,10 @@ exports.getUserInfo = async (req, res, next) => {
     try {
         const user = await User.findById(req.user._id)
             .populate('addresses')
-            .populate('orders')
+            .populate({
+                path: 'orders',
+                populate: { path: 'products.product' }
+            })
             
         res.status(200).json({ success: true, user })
     } catch (error) {
