@@ -32,6 +32,11 @@ const Navigation = () => {
                         <span>Профиль</span>
                     </NavLink>
                 </Menu.Item>
+                <Menu.Item key="/cart">
+                    <NavLink to="/cart">
+                        <span>Корзина</span>
+                    </NavLink>
+                </Menu.Item>
             </Menu>
         </>
     );

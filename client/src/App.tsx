@@ -12,6 +12,9 @@ import ProductsPage from 'pages/Products/ProductsPage';
 import { RootState } from 'redux/store';
 import { deleteToken, initToken, updateUserInfo } from 'redux/slices/authSlice';
 import { useLazyGetUserInfoQuery } from 'services/authApi';
+import Profile from 'pages/Profile/Profile';
+import CartPage from 'pages/Cart/Cart';
+import { initCart } from 'redux/slices/cartSlice';
 
 const App: React.FC = () => {
     const [initialized, setinitialized] = useState(false)
@@ -19,19 +22,21 @@ const App: React.FC = () => {
 
     const lastViewedInitialized = useSelector((state: RootState) => state.lastViewed.initialized)
     const tokenInitialized = useSelector((state: RootState) => state.auth.initialized)
+    const cartInitialized = useSelector((state: RootState) => state.cart.initialized)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getLastViewedProducts())
         dispatch(initToken())
+        dispatch(initCart())
     }, [])
 
     useEffect(() => {
-        if (lastViewedInitialized && tokenInitialized) {
+        if (lastViewedInitialized && tokenInitialized && cartInitialized) {
             trigger({})
             setinitialized(true)
         }
-    }, [lastViewedInitialized, tokenInitialized])
+    }, [lastViewedInitialized, tokenInitialized, cartInitialized])
 
     useEffect(() => {
         if (error) dispatch(deleteToken())
@@ -50,6 +55,8 @@ const App: React.FC = () => {
                 <Route exact path="/product/:id" component={ProductPage} />
                 <Route exact path="/categories" component={CategoriesPage} />
                 <Route exact path="/products" component={ProductsPage} />
+                <Route exact path="/profile" component={Profile} />
+                <Route exact path="/cart" component={CartPage} />
 
                 <Route path="*">
                     <Exception statusCode={404} title="Страница не найдена"

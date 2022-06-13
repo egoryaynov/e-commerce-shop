@@ -37,4 +37,5 @@ ProductSchema.pre('save', function (next) {
 
 ProductSchema.plugin(aggregatePaginate);
 
-module.exports = model('Product', ProductSchema)
+module.exports.Product = model('Product', ProductSchema)
+module.exports.ColorSchema = ColorSchema

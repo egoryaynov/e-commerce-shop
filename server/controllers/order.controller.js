@@ -1,7 +1,8 @@
 const ErrorResponse = require("../utils/ErrorResponse")
 const Order = require('../models/Order')
-const Product = require("../models/Product")
 const axios = require("axios");
+const { Product } = require("../models/Product");
+const ObjectID = require('mongodb').ObjectID;
 
 exports.payOrder = async (req, res, next) => {
     const {address, products} = req.body
@@ -13,12 +14,13 @@ exports.payOrder = async (req, res, next) => {
 
     try {
         const createOrder = async () => {
-            const productIDs = products.map(product => product._id)
             const addressId = address._id
 
+            const productIDs = products.map(item => ObjectID(item.product._id))
+            
             const order = new Order({
                 status: 'paid',
-                products: productIDs,
+                products: products.map(item => ({ product: item.product._id, color: item.color })),
                 address: addressId,
                 date: Date.now()
             })
@@ -36,7 +38,7 @@ exports.payOrder = async (req, res, next) => {
                 .catch(error => {
                     return next(new ErrorResponse('Error on send order to delivery', 500))
                 })
-
+                
             // SAVING ORDER
             await Product.updateMany({_id: {$in: productIDs}}, {$inc: {buyCount: 1}})
 

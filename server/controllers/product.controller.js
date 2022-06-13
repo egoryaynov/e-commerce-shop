@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const Product = require('../models/Product')
+const {Product} = require('../models/Product')
 const ErrorResponse = require('../utils/ErrorResponse')
 const {getAggregateQuery} = require('../utils/getProductsTools')
 

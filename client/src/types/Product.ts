@@ -29,4 +29,17 @@ export type ProductInList = {
     buyCount: number
 }
 
+export type CartProductsItem = {
+    product: {
+        _id: string
+        name: string
+        price: number
+        discount?: number
+    },
+    color: {
+        name: string,
+        hex: string
+    }
+}
+
 export type ProductsList = ProductInList[]
