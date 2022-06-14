@@ -5,7 +5,7 @@ import { useLazyLoginQuery } from 'services/authApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToken } from 'redux/slices/authSlice';
 import { RootState } from 'redux/store';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 const Login = () => {
     const history = useHistory();
@@ -52,7 +52,9 @@ const Login = () => {
             </Form>
 
             { error && <Alert style={{ marginTop: 15 }} type={'error'} message={'Неверный логин или пароль'} banner /> }
-            <Button disabled={disabled || isLoading} size='large' type="primary" style={{ width: '100%' }} onClick={onLoginHandler}>Войти</Button>
+
+            <Link to="/register">Создать новый аккаунт</Link>
+            <Button disabled={disabled || isLoading} size='large' type="primary" style={{ width: '100%', marginTop: 5 }} onClick={onLoginHandler}>Войти</Button>
         </div>
     );
 };

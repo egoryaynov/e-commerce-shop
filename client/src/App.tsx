@@ -15,7 +15,8 @@ import { useLazyGetUserInfoQuery } from 'services/authApi';
 import Profile from 'pages/Profile/Profile';
 import CartPage from 'pages/Cart/Cart';
 import { initCart } from 'redux/slices/cartSlice';
-import Login from 'pages/Login';
+import Login from 'pages/Auth/Login';
+import Register from 'pages/Auth/Register';
 
 const App: React.FC = () => {
     const [initialized, setinitialized] = useState(false)
@@ -59,6 +60,7 @@ const App: React.FC = () => {
                 <Route exact path="/profile" component={Profile} />
                 <Route exact path="/cart" component={CartPage} />
                 <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />
 
                 <Route path="*">
                     <Exception statusCode={404} title="Страница не найдена"
