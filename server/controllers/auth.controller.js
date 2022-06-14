@@ -13,6 +13,10 @@ exports.getUserInfo = async (req, res, next) => {
                 path: 'orders',
                 populate: { path: 'products.product' }
             })
+            .populate({
+                path: 'orders',
+                populate: { path: 'address' }
+            })
             
         res.status(200).json({ success: true, user })
     } catch (error) {
