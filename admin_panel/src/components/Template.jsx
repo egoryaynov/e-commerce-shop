@@ -128,11 +128,6 @@ export default function Template(props) {
                     <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                         {props.title}
                     </Typography>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <NotificationsIcon/>
-                        </Badge>
-                    </IconButton>
                     <Button onClick={logout} className={classes.signOutBtn} variant={'contained'} color={'secondary'}>Sign
                         out</Button>
                 </Toolbar>

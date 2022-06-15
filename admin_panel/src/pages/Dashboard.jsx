@@ -50,23 +50,16 @@ export default function Dashboard() {
             {isLoading || !orders
                 ? <CircularProgress/>
                 : <Grid container spacing={3}>
-                    {/* Chart */}
-                    <Grid item xs={12} md={8} lg={9}>
-                        <Paper className={fixedHeightPaper}>
-                            {/*<Chart/>*/}
-                            <Chart orders={orders}/>
-                        </Paper>
-                    </Grid>
                     {/* Recent Deposits */}
                     <Grid item xs={12} md={4} lg={3}>
                         <Paper className={fixedHeightPaper}>
-                            <Deposits orders={orders}/>
+                            <Deposits orders={orders} />
                         </Paper>
                     </Grid>
                     {/* Recent Orders */}
-                    <Grid item xs={12}>
+                    <Grid item xs={12} md={8} lg={9}>
                         <Paper className={classes.paper}>
-                            <OrdersTable orders={orders}/>
+                            <OrdersTable orders={orders} />
                         </Paper>
                     </Grid>
                 </Grid>

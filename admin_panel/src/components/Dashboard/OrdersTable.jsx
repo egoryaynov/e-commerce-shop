@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function OrdersTable({orders, needShowFullList = false}) {
     const classes = useStyles();
-
+    
     return (
         <React.Fragment>
             <Title>{needShowFullList ? 'Orders' : 'Recent Orders'}</Title>
