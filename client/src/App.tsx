@@ -57,7 +57,7 @@ const App: React.FC = () => {
                 <Route exact path="/product/:id" component={ProductPage} />
                 <Route exact path="/categories" component={CategoriesPage} />
                 <Route exact path="/products" component={ProductsPage} />
-                <Route exact path="/profile" component={Profile} />
+                <Route exact path="/orders" component={Profile} />
                 <Route exact path="/cart" component={CartPage} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />

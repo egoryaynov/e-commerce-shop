@@ -3,12 +3,12 @@ import { CartProductsItem } from 'types/Product';
 import { LocalStorageKeys } from "../../types/LocalStorageKeys";
 
 interface CartState {
-    products: CartProductsItem[] | null
+    products: CartProductsItem[]
     initialized: boolean
 }
 
 const initialState = {
-    products: null,
+    products: [],
     initialized: false
 } as CartState
 
@@ -26,10 +26,12 @@ export const cartSlice = createSlice({
             state.initialized = true
         },
         addProductToCart(state: CartState, action: PayloadAction<CartProductsItem>) {
-            const newProducts = state.products ? [...state.products, action.payload] : [action.payload]
+            if (state.products.findIndex(item => item.product._id === action.payload.product._id) === -1) {
+                const newProducts = state.products ? [...state.products, action.payload] : [action.payload]
 
-            localStorage.setItem(LocalStorageKeys.CART, JSON.stringify(newProducts))
-            state.products = newProducts
+                localStorage.setItem(LocalStorageKeys.CART, JSON.stringify(newProducts))
+                state.products = newProducts
+            }
         },
         deleteProductFromCart(state: CartState, action: PayloadAction<string>) {
             if (state.products) {
@@ -41,7 +43,7 @@ export const cartSlice = createSlice({
         },
         clearCart(state: CartState) {
             localStorage.removeItem(LocalStorageKeys.CART)
-            state.products = null
+            state.products = []
         }
     }
 })

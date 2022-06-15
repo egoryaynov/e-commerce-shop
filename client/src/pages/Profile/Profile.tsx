@@ -12,13 +12,9 @@ const Profile = () => {
     
     return (
         <>
-            <Title level={2}>Профиль</Title>
+            <Title level={2}>Заказы</Title>
 
-            {user && user.orders.length > 0 && <>
-                    <Title level={2}>Заказы</Title>
-                    <OrdersTable orders={user.orders} />
-                </>
-            }
+            { user && user.orders.length > 0 && <OrdersTable orders={user.orders} /> }
         </>
     )
 }

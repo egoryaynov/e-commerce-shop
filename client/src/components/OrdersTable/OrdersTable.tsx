@@ -1,5 +1,4 @@
-import { DownOutlined } from '@ant-design/icons';
-import { Badge, Dropdown, Menu, Space, Table } from 'antd';
+import { Badge, Table } from 'antd';
 import type { ColumnsType } from 'antd/lib/table';
 import TableColorColumn from 'components/TableColorColumn';
 import { ExpandedRowRender } from 'rc-table/lib/interface';
@@ -83,11 +82,6 @@ const OrdersTable: React.FC<{ orders: OrdersItemType[] }> = ({ orders }) => {
             products: orders[i].products
         });
     }
-
-    // date: string
-    // adddress: string
-    // totalCost: number
-    // status: "delivered" | 'paid' | 'received' | 'picked'
 
     return (
         <Table

@@ -11,8 +11,9 @@ import { AddressItemType } from "types/Address"
 import { CartProductsItem } from "types/Product";
 import { clearCart, deleteProductFromCart } from "redux/slices/cartSlice";
 import { addOrder } from "redux/slices/authSlice";
+import TableColorColumn from "components/TableColorColumn";
 
-type DataType = Omit<CartProductsItem['product'], 'discount'> & { colorName: string }
+type DataType = Omit<CartProductsItem['product'], 'discount'> & { color: {name: string, hex: string} }
 
 const CartPage = () => {
     const history = useHistory();
@@ -50,9 +51,9 @@ const CartPage = () => {
             key: 'price',
         },
         {
-            title: 'Цвет',
-            dataIndex: 'colorName',
-            key: 'colorName',
+            title: 'Цвет', dataIndex: 'color', render(_, record) {
+                return <TableColorColumn hex={record.color.hex} name={record.color.name} />
+            }
         },
         {
             title: 'Действия',
@@ -69,7 +70,7 @@ const CartPage = () => {
         _id: product.product._id,
         name: product.product.name,
         price: product.product.discount || product.product.price,
-        colorName: product.color.name
+        color: product.color
     })), [cartProducts])
 
     useEffect(() => {

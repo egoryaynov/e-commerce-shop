@@ -27,9 +27,9 @@ const Navigation = () => {
                         <span>Категории</span>
                     </NavLink>
                 </Menu.Item>
-                <Menu.Item key="/profile">
-                    <NavLink to="/profile">
-                        <span>Профиль</span>
+                <Menu.Item key="/orders">
+                    <NavLink to="/orders">
+                        <span>Заказы</span>
                     </NavLink>
                 </Menu.Item>
                 <Menu.Item key="/cart">
